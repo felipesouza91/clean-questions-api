@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
@@ -23,5 +23,10 @@
     "husky": "^4.2.5",
     "lint-staged": "^10.2.11",
     "typescript": "^3.9.6"
+  },
+  "dependencies": {
+    "@types/jest": "^26.0.4",
+    "jest": "^26.1.0",
+    "ts-jest": "^26.1.1"
   }
 }

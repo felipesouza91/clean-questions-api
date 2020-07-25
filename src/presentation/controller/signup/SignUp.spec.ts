@@ -22,9 +22,10 @@ const makeAddAccount = (): AddAccount => {
     add (account: AddAccountModel): AccountModel {
       const fakeAccount = {
         id: 'valid_id',
-        name: 'Valid name',
-        email: 'Valid email',
-        password: 'valid_password'
+        name: 'any_name',
+        email: 'any_email@email.com',
+        password: 'any_password'
+
       }
       return fakeAccount
     }
@@ -111,7 +112,6 @@ describe('SingUp Controller', () => {
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new InvalidParamError('email'))
   })
-
   test('Shoud return 400 if password confirmation is fails', () => {
     const { sut } = makeSut()
     const httpRequest = {
@@ -127,7 +127,6 @@ describe('SingUp Controller', () => {
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new InvalidParamError('passwordConfirmation'))
   })
-
   test('Shoud call EmailValidator with  correct email', () => {
     const { sut , emailValidatorSub } = makeSut()
     const isValidSpy = jest.spyOn(emailValidatorSub, 'isValid')
@@ -193,5 +192,25 @@ describe('SingUp Controller', () => {
     const httpResponse = sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError())
+  })
+  test('Shoud return 201 if valid data is provided', () => {
+    const { sut } = makeSut()
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@email.com',
+        password: 'any_password',
+        passwordConfirmation: 'any_password'
+
+      }
+    }
+    const httpResponse = sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(201)
+    expect(httpResponse.body).toEqual({
+      id: 'valid_id',
+      name: 'any_name',
+      email: 'any_email@email.com',
+      password: 'any_password'
+    })
   })
 })

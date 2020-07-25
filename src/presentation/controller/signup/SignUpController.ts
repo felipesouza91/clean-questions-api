@@ -4,7 +4,7 @@ import {
   Controller,
   EmailValidator,
   AddAccount
-} from './SignUpProtocol'
+} from './SignUp.protocols'
 import { MissingParamError, InvalidParamError } from '../../erros'
 import { badRequest, serverError, created } from '../../helpers/HttpHelper'
 

@@ -5,7 +5,7 @@ import {
   AddAccountModel,
   EmailValidator,
   AccountModel
-} from './SignUpProtocol'
+} from './SignUp.protocols'
 
 interface SutTypes {
   sut: SignUpController

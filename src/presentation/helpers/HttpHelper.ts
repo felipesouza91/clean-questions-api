@@ -12,3 +12,9 @@ export const serverError = (error: Error): HttpResponse => {
     body: error
   }
 }
+export const created = (object: any): HttpResponse => {
+  return {
+    statusCode: 201,
+    body: object
+  }
+}

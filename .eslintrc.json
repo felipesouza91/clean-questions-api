@@ -6,6 +6,7 @@
   "rules": {
     "@typescript-eslint/comma-spacing": "off",
     "@typescript-eslint/return-wait": "off",
-    "@typescript-eslint/strict-boolean-expressions": "off"
+    "@typescript-eslint/strict-boolean-expressions": "off",
+    "@typescript-eslint/no-floating-promises": "off"
   }
 }

@@ -130,6 +130,7 @@ describe('SingUp Controller', () => {
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new InvalidParamError('email'))
   })
+
   test('Shoud return 400 if password confirmation is fails', async () => {
     const { sut } = makeSut()
     const httpRequest = {

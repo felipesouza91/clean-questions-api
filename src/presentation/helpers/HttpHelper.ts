@@ -4,7 +4,7 @@ import { ServerError, UnauthorizedError } from '../erros'
 export const badRequest = (error: Error): HttpResponse => {
   return {
     statusCode: 400,
-    body: error
+    body: { error: error.message }
   }
 }
 export const serverError = (error: Error): HttpResponse => {

@@ -91,23 +91,6 @@ describe('SingUp Controller', () => {
     expect(httpResponse.body).toEqual(new InvalidParamError('email'))
   })
 
-  test('Shoud return 400 if password confirmation is fails', async () => {
-    const { sut } = makeSut()
-    const httpRequest = {
-      body: {
-        name: 'any_name',
-        email: 'any_email@email.com',
-        password: 'any_password',
-        passwordConfirmation: 'invalid_password'
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(
-      new InvalidParamError('passwordConfirmation')
-    )
-  })
-
   test('Shoud call EmailValidator with  correct email', async () => {
     const { sut, emailValidatorSub } = makeSut()
     const isValidSpy = jest.spyOn(emailValidatorSub, 'isValid')

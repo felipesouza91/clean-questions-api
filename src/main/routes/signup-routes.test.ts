@@ -1,6 +1,6 @@
 import request from 'supertest'
-import app from '../config/app'
 import { MongoHelper } from '../../infra/db/mongodb/helpers/MongoHelper'
+import app from '../config/app'
 
 describe('SingUp Routes', () => {
   beforeAll(async () => {

@@ -5,7 +5,7 @@ import {
   AddAccount
 } from './SignUp.protocols'
 
-import { badRequest, serverError, created } from '../../helpers/HttpHelper'
+import { badRequest, serverError, created } from '../../helpers/http/HttpHelper'
 import { Validation } from '../../helpers/validators/Validation'
 
 export class SignUpController implements Controller {

@@ -1,5 +1,5 @@
 import { Authentication, AuthenticationModel } from '../../../domain/usecases/Authentication'
-import { ILoadAccountByEmailRepository } from '../../protocols/ILoadAccountByEmailRepository'
+import { ILoadAccountByEmailRepository } from '../../protocols/db/ILoadAccountByEmailRepository'
 
 interface DbAuthenticationProps {
   loadAccountByEmailRepository: ILoadAccountByEmailRepository
@@ -12,7 +12,10 @@ export class DbAuthentication implements Authentication {
   }
 
   async auth ({ email,password }: AuthenticationModel): Promise<string> {
-    await this.loadAccountByEmailRepository.load(email)
-    return await new Promise(resolve => resolve(null))
+    const account = await this.loadAccountByEmailRepository.load(email)
+    if (!account) {
+      return await new Promise(resolve => resolve(null))
+    }
+    return await new Promise(resolve => resolve('asdad'))
   }
 }

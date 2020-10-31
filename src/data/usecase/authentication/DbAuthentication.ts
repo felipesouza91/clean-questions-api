@@ -26,7 +26,10 @@ export class DbAuthentication implements Authentication {
     if (!account) {
       return await new Promise((resolve) => resolve(null))
     }
-    await this.hashCompare.compare(password, account.password)
+    const isvalid = await this.hashCompare.compare(password, account.password)
+    if (!isvalid) {
+      return await new Promise((resolve) => resolve(null))
+    }
     return await new Promise((resolve) => resolve('asdad'))
   }
 }

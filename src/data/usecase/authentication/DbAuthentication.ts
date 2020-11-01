@@ -1,12 +1,11 @@
 import {
   Authentication,
-  AuthenticationModel
-} from '../../../domain/usecases/Authentication'
-import { IHashCompare } from '../../protocols/cryptography/IHashCompare'
-import { ITokenGenerator } from '../../protocols/cryptography/ITokenGenerator'
-
-import { ILoadAccountByEmailRepository } from '../../protocols/db/ILoadAccountByEmailRepository'
-import { IUpdateAccessTokenRepository } from '../../protocols/db/IUpdateAccessTokenRepository'
+  AuthenticationModel,
+  IHashCompare,
+  ILoadAccountByEmailRepository,
+  ITokenGenerator,
+  IUpdateAccessTokenRepository
+} from './DbAuthentication.protocols'
 
 interface DbAuthenticationProps {
   loadAccountByEmailRepository: ILoadAccountByEmailRepository

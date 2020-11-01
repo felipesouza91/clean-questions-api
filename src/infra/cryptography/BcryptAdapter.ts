@@ -1,4 +1,4 @@
-import { Encrypter } from '../../data/protocols/cryptography/Encrypter'
+import { Encrypter } from '../../data/protocols/cryptography/IEncrypter'
 import bcrypt from 'bcrypt'
 
 export class BcryptAdapter implements Encrypter {

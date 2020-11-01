@@ -1,6 +1,6 @@
 import {
-  Authentication,
-  AuthenticationModel,
+  IAuthentication,
+  IAuthenticationModel,
   IHashCompare,
   ILoadAccountByEmailRepository,
   ITokenGenerator,
@@ -14,7 +14,7 @@ interface IDbAuthenticationProps {
   updateAccessTokenRepository: IUpdateAccessTokenRepository
 }
 
-export class DbAuthentication implements Authentication {
+export class DbAuthentication implements IAuthentication {
   private readonly loadAccountByEmailRepository: ILoadAccountByEmailRepository
   private readonly hashCompare: IHashCompare
   private readonly tokenGenerator: ITokenGenerator
@@ -31,7 +31,7 @@ export class DbAuthentication implements Authentication {
     this.updateAccessTokenRepository = updateAccessTokenRepository
   }
 
-  async auth ({ email, password }: AuthenticationModel): Promise<string> {
+  async auth ({ email, password }: IAuthenticationModel): Promise<string> {
     const account = await this.loadAccountByEmailRepository.load(email)
     if (account) {
       const isValid = await this.hashCompare.compare(password, account.password)

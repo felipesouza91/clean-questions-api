@@ -4,7 +4,7 @@ import { MissingParamError } from '../../erros'
 import { badRequest, serverError, unauthorized, ok } from '../../helpers/http/HttpHelper'
 import { IAuthenticationModel } from '../../../domain/usecases/IAuthentication'
 
-interface SutTypes {
+interface IISutTypes {
   sut: IController
 
   authenticationSub: IAuthentication
@@ -37,7 +37,7 @@ const makeFakeRequest = (): IHttpRequest => {
   }
 }
 
-const makeSut = (): SutTypes => {
+const makeSut = (): IISutTypes => {
   const authenticationSub = makeAuthentication()
   const validationStub = makeValidation()
   const sut = new LoginController(validationStub,authenticationSub)

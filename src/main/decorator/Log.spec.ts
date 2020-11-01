@@ -3,7 +3,7 @@ import { IHttpRequest, IHttpResponse, IController } from '../../presentation/pro
 import { serverError } from '../../presentation/helpers/http/HttpHelper'
 import { ILogErrorRepository } from '../../data/protocols/db/ILogErrorRepository'
 
-interface SutTypes {
+interface IISutTypes {
   sut: LogControllerDecorator
   controllerStub: IController
   logErrorRepositoryStub: ILogErrorRepository
@@ -33,7 +33,7 @@ const makeControllerStub = (): IController => {
   return new ControllerStub()
 }
 
-const makeSut = (): SutTypes => {
+const makeSut = (): IISutTypes => {
   const controllerStub = makeControllerStub()
   const logErrorRepositoryStub = makeLogErrorRepository()
   const sut = new LogControllerDecorator(controllerStub, logErrorRepositoryStub)

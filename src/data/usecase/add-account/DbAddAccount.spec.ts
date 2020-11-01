@@ -1,20 +1,20 @@
 import { DbAddAccount } from './DbAddAccount'
 import {
-  Encrypter,
-  AccountModel,
-  AddAccountModel,
-  AddAccountRepository
+  IEncrypter,
+  IAccountModel,
+  IAddAccountModel,
+  IAddAccountRepository
 } from './DbAddAccount.protocols'
 
-interface SutTypes {
+interface IISutTypes {
   sut: DbAddAccount
-  encryptStub: Encrypter
-  addAccountRepositoryStub: AddAccountRepository
+  encryptStub: IEncrypter
+  addAccountRepositoryStub: IAddAccountRepository
 }
 
-const makeAddAccountRepository = (): AddAccountRepository => {
-  class AddAccountRepositotyStub implements AddAccountRepository {
-    async add (accountData: AddAccountModel): Promise<AccountModel> {
+const makeAddAccountRepository = (): IAddAccountRepository => {
+  class AddAccountRepositotyStub implements IAddAccountRepository {
+    async add (accountData: IAddAccountModel): Promise<IAccountModel> {
       const fakeAccount = {
         id: 'valid_id',
         name: 'valid_name',
@@ -27,8 +27,8 @@ const makeAddAccountRepository = (): AddAccountRepository => {
   return new AddAccountRepositotyStub()
 }
 
-const makeEncrypStub = (): Encrypter => {
-  class EncryptStub implements Encrypter {
+const makeEncrypStub = (): IEncrypter => {
+  class EncryptStub implements IEncrypter {
     async encrypt (value: string): Promise<string> {
       return await new Promise((resolve) => resolve('hashed_value'))
     }
@@ -37,7 +37,7 @@ const makeEncrypStub = (): Encrypter => {
   return new EncryptStub()
 }
 
-const makeSut = (): SutTypes => {
+const makeSut = (): IISutTypes => {
   const addAccountRepositoryStub = makeAddAccountRepository()
   const encryptStub = makeEncrypStub()
   const sut = new DbAddAccount(encryptStub, addAccountRepositoryStub)
@@ -48,7 +48,7 @@ const makeSut = (): SutTypes => {
   }
 }
 
-const makeFakeAccountData = (): AddAccountModel => {
+const makeFakeAccountData = (): IAddAccountModel => {
   return {
     name: 'valid_name',
     email: 'valid_name@email.com',

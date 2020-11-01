@@ -9,7 +9,7 @@ import {
 import { IHttpRequest } from '../../protocols'
 import { badRequest } from '../../helpers/http/HttpHelper'
 
-interface SutTypes {
+interface ISutTypes {
   sut: SignUpController
   addAccountStub: IAddAccount
   validationStub: IValidation
@@ -50,7 +50,7 @@ const makeValidation = (): IValidation => {
   return new ValidationStub()
 }
 
-const makeSut = (): SutTypes => {
+const makeSut = (): ISutTypes => {
   const addAccountStub = makeAddAccount()
   const validationStub = makeValidation()
   const sut = new SignUpController(addAccountStub,validationStub)

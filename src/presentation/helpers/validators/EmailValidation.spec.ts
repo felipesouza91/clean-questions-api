@@ -3,7 +3,7 @@ import { EmailValidation } from './EmailValidation'
 import { IEmailValidator } from '../../protocols/IEmailValidator'
 import { InvalidParamError } from '../../erros'
 
-interface SutTypes {
+interface ISutTypes {
   sut: EmailValidation
   emailValidatorSub: IEmailValidator
 
@@ -18,7 +18,7 @@ const makeEmailValidator = (): IEmailValidator => {
   return new EmailValidatorStub()
 }
 
-const makeSut = (): SutTypes => {
+const makeSut = (): ISutTypes => {
   const emailValidatorSub = makeEmailValidator()
   const sut = new EmailValidation('email',emailValidatorSub)
   return {

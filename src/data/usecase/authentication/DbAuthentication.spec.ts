@@ -1,30 +1,30 @@
 import { DbAuthentication } from './DbAuthentication'
 import {
-  Authentication,
-  AccountModel,
-  AuthenticationModel,
+  IAuthentication,
+  IAccountModel,
+  IAuthenticationModel,
   IHashCompare,
   ITokenGenerator,
   ILoadAccountByEmailRepository,
   IUpdateAccessTokenRepository
 } from './DbAuthentication.protocols'
 
-interface SutTypes {
-  sut: Authentication
+interface IISutTypes {
+  sut: IAuthentication
   loadAccountByEmailRepositoryStub: ILoadAccountByEmailRepository
   hashCompareStub: IHashCompare
   tokenGeneratorStub: ITokenGenerator
   updateAccessTokenRepositoryStub: IUpdateAccessTokenRepository
 }
 
-const makeFakeAccount = (): AccountModel => ({
+const makeFakeAccount = (): IAccountModel => ({
   id: 'any_id',
   email: 'any_email@mail.com',
   name: 'Any Name',
   password: 'hashed_password'
 })
 
-const makeFakeAuthentication = (): AuthenticationModel => ({
+const makeFakeAuthentication = (): IAuthenticationModel => ({
   email: 'any_email@mail.com',
   password: 'any_password'
 })
@@ -32,7 +32,7 @@ const makeFakeAuthentication = (): AuthenticationModel => ({
 const makeLoadAccountByEmailReposiotyStub = (): ILoadAccountByEmailRepository => {
   class LoadAccountByEmailRepositoryStub
   implements ILoadAccountByEmailRepository {
-    async load (email: string): Promise<AccountModel> {
+    async load (email: string): Promise<IAccountModel> {
       const account = makeFakeAccount()
       return await new Promise((resolve) => resolve(account))
     }
@@ -67,7 +67,7 @@ const makeTokenGeneretorStub = (): ITokenGenerator => {
   return new TokenGeneratorStub()
 }
 
-const makeSut = (): SutTypes => {
+const makeSut = (): IISutTypes => {
   const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailReposiotyStub()
   const hashCompareStub = makeCompareHash()
   const tokenGeneratorStub = makeTokenGeneretorStub()

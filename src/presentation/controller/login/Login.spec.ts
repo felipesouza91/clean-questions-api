@@ -1,34 +1,34 @@
 import { LoginController } from './Login'
-import { Controller, HttpRequest, Validation, Authentication } from './Login.protocols'
+import { IController, IHttpRequest, IValidation, IAuthentication } from './Login.protocols'
 import { MissingParamError } from '../../erros'
 import { badRequest, serverError, unauthorized, ok } from '../../helpers/http/HttpHelper'
-import { AuthenticationModel } from '../../../domain/usecases/Authentication'
+import { IAuthenticationModel } from '../../../domain/usecases/IAuthentication'
 
 interface SutTypes {
-  sut: Controller
+  sut: IController
 
-  authenticationSub: Authentication
-  validationStub: Validation
+  authenticationSub: IAuthentication
+  validationStub: IValidation
 }
 
-const makeValidation = (): Validation => {
-  class ValidationStub implements Validation {
+const makeValidation = (): IValidation => {
+  class ValidationStub implements IValidation {
     validate (input: any): Error {
       return null
     }
   }
   return new ValidationStub()
 }
-const makeAuthentication = (): Authentication => {
-  class AuthenticationSub implements Authentication {
-    async auth (authenticationData: AuthenticationModel): Promise<string> {
+const makeAuthentication = (): IAuthentication => {
+  class AuthenticationSub implements IAuthentication {
+    async auth (authenticationData: IAuthenticationModel): Promise<string> {
       return 'any_token'
     }
   }
   return new AuthenticationSub()
 }
 
-const makeFakeRequest = (): HttpRequest => {
+const makeFakeRequest = (): IHttpRequest => {
   return {
     body: {
       email: 'any_email@email.com',

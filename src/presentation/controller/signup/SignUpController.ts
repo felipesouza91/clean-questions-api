@@ -1,23 +1,23 @@
 import {
-  HttpRequest,
-  HttpResponse,
-  Controller,
-  AddAccount
+  IHttpRequest,
+  IHttpResponse,
+  IController,
+  IAddAccount
 } from './SignUp.protocols'
 
 import { badRequest, serverError, created } from '../../helpers/http/HttpHelper'
-import { Validation } from '../../protocols/Validation'
+import { IValidation } from '../../protocols/IValidation'
 
-export class SignUpController implements Controller {
-  private readonly addAccount: AddAccount
-  private readonly validation: Validation
+export class SignUpController implements IController {
+  private readonly addAccount: IAddAccount
+  private readonly validation: IValidation
 
-  constructor (addAccount: AddAccount,validation: Validation) {
+  constructor (addAccount: IAddAccount,validation: IValidation) {
     this.addAccount = addAccount
     this.validation = validation
   }
 
-  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
+  async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
       const error = this.validation.validate(httpRequest.body)
       if (error) {

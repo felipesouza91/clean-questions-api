@@ -1,15 +1,15 @@
 
 import { MissingParamError } from '../../erros'
-import { Validation } from '../../protocols/Validation'
+import { IValidation } from '../../protocols/IValidation'
 import { ValidationComposite } from './Validation-composite'
 
 interface SutTypes {
   sut: ValidationComposite
-  validationStubs: Validation[]
+  validationStubs: IValidation[]
 }
 
-const makeValidationStub = (): Validation => {
-  class ValidationStub implements Validation {
+const makeValidationStub = (): IValidation => {
+  class ValidationStub implements IValidation {
     validate (input: any): Error {
       return null
     }

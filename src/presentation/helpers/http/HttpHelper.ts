@@ -1,32 +1,32 @@
-import { HttpResponse } from '../../protocols/Http'
+import { IHttpResponse } from '../../protocols/IHttp'
 import { ServerError, UnauthorizedError } from '../../erros'
 
-export const badRequest = (error: Error): HttpResponse => {
+export const badRequest = (error: Error): IHttpResponse => {
   return {
     statusCode: 400,
     body: { error: error.message }
   }
 }
-export const serverError = (error: Error): HttpResponse => {
+export const serverError = (error: Error): IHttpResponse => {
   return {
     statusCode: 500,
     body: new ServerError(error.stack)
   }
 }
-export const unauthorized = (): HttpResponse => {
+export const unauthorized = (): IHttpResponse => {
   return {
     statusCode: 401,
     body: new UnauthorizedError()
   }
 }
-export const created = (object: any): HttpResponse => {
+export const created = (object: any): IHttpResponse => {
   return {
     statusCode: 201,
     body: object
   }
 }
 
-export const ok = (object: any): HttpResponse => {
+export const ok = (object: any): IHttpResponse => {
   return {
     statusCode: 200,
     body: object

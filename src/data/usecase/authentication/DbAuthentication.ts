@@ -7,7 +7,7 @@ import {
   IUpdateAccessTokenRepository
 } from './DbAuthentication.protocols'
 
-interface DbAuthenticationProps {
+interface IDbAuthenticationProps {
   loadAccountByEmailRepository: ILoadAccountByEmailRepository
   hashCompare: IHashCompare
   tokenGenerator: ITokenGenerator
@@ -24,7 +24,7 @@ export class DbAuthentication implements Authentication {
     hashCompare,
     tokenGenerator,
     updateAccessTokenRepository
-  }: DbAuthenticationProps) {
+  }: IDbAuthenticationProps) {
     this.loadAccountByEmailRepository = loadAccountByEmailRepository
     this.hashCompare = hashCompare
     this.tokenGenerator = tokenGenerator

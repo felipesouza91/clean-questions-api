@@ -1,9 +1,9 @@
-import { Validation } from '../../protocols/Validation'
+import { IValidation } from '../../protocols/IValidation'
 
-export class ValidationComposite implements Validation {
-  private readonly validations: Validation[]
+export class ValidationComposite implements IValidation {
+  private readonly validations: IValidation[]
 
-  constructor (validations: Validation[]) {
+  constructor (validations: IValidation[]) {
     this.validations = validations
   }
 

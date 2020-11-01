@@ -1,21 +1,21 @@
 import { SignUpController } from './SignUpController'
 import { MissingParamError, ServerError } from '../../erros'
 import {
-  AddAccount,
-  AddAccountModel,
-  AccountModel,
-  Validation
+  IAddAccount,
+  IAddAccountModel,
+  IAccountModel,
+  IValidation
 } from './SignUp.protocols'
-import { HttpRequest } from '../../protocols'
+import { IHttpRequest } from '../../protocols'
 import { badRequest } from '../../helpers/http/HttpHelper'
 
 interface SutTypes {
   sut: SignUpController
-  addAccountStub: AddAccount
-  validationStub: Validation
+  addAccountStub: IAddAccount
+  validationStub: IValidation
 }
 
-const makeFakeRequest = (): HttpRequest => ({
+const makeFakeRequest = (): IHttpRequest => ({
   body: {
     name: 'any_name',
     email: 'any_email@email.com',
@@ -24,16 +24,16 @@ const makeFakeRequest = (): HttpRequest => ({
   }
 })
 
-const makeFakeAccount = (): AccountModel => ({
+const makeFakeAccount = (): IAccountModel => ({
   id: 'valid_id',
   name: 'any_name',
   email: 'any_email@email.com',
   password: 'any_password'
 })
 
-const makeAddAccount = (): AddAccount => {
-  class AddAccountStub implements AddAccount {
-    async add (account: AddAccountModel): Promise<AccountModel> {
+const makeAddAccount = (): IAddAccount => {
+  class AddAccountStub implements IAddAccount {
+    async add (account: IAddAccountModel): Promise<IAccountModel> {
       const fakeAccount = makeFakeAccount()
       return await new Promise((resolve) => resolve(fakeAccount))
     }
@@ -41,8 +41,8 @@ const makeAddAccount = (): AddAccount => {
   return new AddAccountStub()
 }
 
-const makeValidation = (): Validation => {
-  class ValidationStub implements Validation {
+const makeValidation = (): IValidation => {
+  class ValidationStub implements IValidation {
     validate (input: any): Error {
       return null
     }

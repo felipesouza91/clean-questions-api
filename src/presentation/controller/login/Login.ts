@@ -1,18 +1,18 @@
-import { Controller, HttpRequest, HttpResponse } from '../../protocols'
+import { IController, IHttpRequest, IHttpResponse } from '../../protocols'
 import { badRequest, serverError, unauthorized, ok } from '../../helpers/http/HttpHelper'
 
-import { Authentication } from '../../../domain/usecases/Authentication'
-import { Validation } from '../signup/SignUp.protocols'
+import { IAuthentication } from '../../../domain/usecases/IAuthentication'
+import { IValidation } from '../signup/SignUp.protocols'
 
-export class LoginController implements Controller {
-  private readonly validation: Validation
-  private readonly authentication: Authentication
-  constructor (validation: Validation,authentication: Authentication) {
+export class LoginController implements IController {
+  private readonly validation: IValidation
+  private readonly authentication: IAuthentication
+  constructor (validation: IValidation,authentication: IAuthentication) {
     this.validation = validation
     this.authentication = authentication
   }
 
-  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
+  async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
       const { email, password } = httpRequest.body
       const error = this.validation.validate(httpRequest.body)

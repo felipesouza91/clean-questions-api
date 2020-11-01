@@ -1,16 +1,16 @@
 import { LogControllerDecorator } from './Log'
-import { HttpRequest, HttpResponse, Controller } from '../../presentation/protocols'
+import { IHttpRequest, IHttpResponse, IController } from '../../presentation/protocols'
 import { serverError } from '../../presentation/helpers/http/HttpHelper'
-import { LogErrorRepository } from '../../data/protocols/LogErrorRepository'
+import { ILogErrorRepository } from '../../data/protocols/db/ILogErrorRepository'
 
 interface SutTypes {
   sut: LogControllerDecorator
-  controllerStub: Controller
-  logErrorRepositoryStub: LogErrorRepository
+  controllerStub: IController
+  logErrorRepositoryStub: ILogErrorRepository
 }
 
-const makeLogErrorRepository = (): LogErrorRepository => {
-  class LogErrorRepositoryStub implements LogErrorRepository {
+const makeLogErrorRepository = (): ILogErrorRepository => {
+  class LogErrorRepositoryStub implements ILogErrorRepository {
     async log (stack: string): Promise<void> {
       return await new Promise(resolve => resolve(null))
     }
@@ -18,9 +18,9 @@ const makeLogErrorRepository = (): LogErrorRepository => {
   return new LogErrorRepositoryStub()
 }
 
-const makeControllerStub = (): Controller => {
-  class ControllerStub implements Controller {
-    async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
+const makeControllerStub = (): IController => {
+  class ControllerStub implements IController {
+    async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
       const httpResponse = {
         statusCode: 201,
         body: {
@@ -42,7 +42,7 @@ const makeSut = (): SutTypes => {
   }
 }
 
-const makeFakeRequest = (): HttpRequest => ({
+const makeFakeRequest = (): IHttpRequest => ({
   body: {
     name: 'any_name',
     email: 'any_email@email.com',

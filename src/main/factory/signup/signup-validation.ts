@@ -3,11 +3,11 @@ import { EmailValidation } from '../../../presentation/helpers/validators/EmailV
 import { RequiredFieldValidation } from '../../../presentation/helpers/validators/RequiredFieldValidation'
 
 import { ValidationComposite } from '../../../presentation/helpers/validators/Validation-composite'
-import { Validation } from '../../../presentation/protocols/Validation'
+import { IValidation } from '../../../presentation/protocols/IValidation'
 import { EmailValidatorAdapter } from '../../../utils/EmailValidatorAdapter'
 
 export const makeSignUpValidation = (): ValidationComposite => {
-  const validations: Validation[] = []
+  const validations: IValidation[] = []
   for (const field of ['name', 'email', 'password', 'passwordConfirmation']) {
     validations.push(new RequiredFieldValidation(field))
   }

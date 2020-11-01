@@ -1,16 +1,16 @@
 import { EmailValidation } from './EmailValidation'
 
-import { EmailValidator } from '../../protocols/EmailValidator'
+import { IEmailValidator } from '../../protocols/IEmailValidator'
 import { InvalidParamError } from '../../erros'
 
 interface SutTypes {
   sut: EmailValidation
-  emailValidatorSub: EmailValidator
+  emailValidatorSub: IEmailValidator
 
 }
 
-const makeEmailValidator = (): EmailValidator => {
-  class EmailValidatorStub implements EmailValidator {
+const makeEmailValidator = (): IEmailValidator => {
+  class EmailValidatorStub implements IEmailValidator {
     isValid (email): boolean {
       return true
     }

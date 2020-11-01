@@ -1,12 +1,11 @@
 import { MongoHelper } from '../helpers/MongoHelper'
 import { LogMongoRepository } from './Log'
-import { LogErrorRepository } from '../../../../data/protocols/LogErrorRepository'
-
 import { Collection } from 'mongodb'
+import { ILogErrorRepository } from '../../../../data/protocols/db/ILogErrorRepository'
 
 describe('Log Mongo Repository', () => {
   let errorColletion: Collection
-  const makeSut = (): LogErrorRepository => {
+  const makeSut = (): ILogErrorRepository => {
     return new LogMongoRepository()
   }
 

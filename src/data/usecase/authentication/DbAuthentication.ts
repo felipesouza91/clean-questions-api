@@ -3,33 +3,37 @@ import {
   AuthenticationModel
 } from '../../../domain/usecases/Authentication'
 import { IHashCompare } from '../../protocols/cryptography/IHashCompare'
+import { ITokenGenerator } from '../../protocols/cryptography/ITokenGenerator'
+
 import { ILoadAccountByEmailRepository } from '../../protocols/db/ILoadAccountByEmailRepository'
 
 interface DbAuthenticationProps {
   loadAccountByEmailRepository: ILoadAccountByEmailRepository
   hashCompare: IHashCompare
+  tokenGenerator: ITokenGenerator
 }
 
 export class DbAuthentication implements Authentication {
   private readonly loadAccountByEmailRepository: ILoadAccountByEmailRepository
   private readonly hashCompare: IHashCompare
+  private readonly tokenGenerator: ITokenGenerator
   constructor ({
     loadAccountByEmailRepository,
-    hashCompare
+    hashCompare,
+    tokenGenerator
   }: DbAuthenticationProps) {
     this.loadAccountByEmailRepository = loadAccountByEmailRepository
     this.hashCompare = hashCompare
+    this.tokenGenerator = tokenGenerator
   }
 
   async auth ({ email, password }: AuthenticationModel): Promise<string> {
     const account = await this.loadAccountByEmailRepository.load(email)
-    if (!account) {
-      return await new Promise((resolve) => resolve(null))
+    if (account) {
+      await this.hashCompare.compare(password, account.password)
+      await this.tokenGenerator.generate(account.id)
     }
-    const isvalid = await this.hashCompare.compare(password, account.password)
-    if (!isvalid) {
-      return await new Promise((resolve) => resolve(null))
-    }
-    return await new Promise((resolve) => resolve('asdad'))
+
+    return await new Promise((resolve) => resolve(null))
   }
 }

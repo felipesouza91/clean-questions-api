@@ -4,6 +4,7 @@ import { MongoHelper } from '../../infra/db/mongodb/helpers/MongoHelper'
 import app from '../config/app'
 import { hash } from 'bcrypt'
 import config from '../config/env'
+
 describe('Login Routes', () => {
   let accountsCollection: Collection
   beforeAll(async () => {
@@ -55,6 +56,21 @@ describe('Login Routes', () => {
           password: '123456'
         })
         .expect(401)
+    })
+    test('Should return 500 on login', async () => {
+      const password = hash('123456', Number(config.salt))
+      await accountsCollection.insertOne({
+        name: 'Felipe Souza Santana',
+        email: 'felipedb91@hotmail.com',
+        password
+      })
+      await request(app)
+        .post('/api/login')
+        .send({
+          email: 'felipedb91@hotmail.com',
+          password: '123456'
+        })
+        .expect(500)
     })
   })
 })

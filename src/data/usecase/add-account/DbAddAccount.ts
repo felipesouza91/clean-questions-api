@@ -5,15 +5,16 @@ import {
   IAccountModel,
   IAddAccountRepository
 } from './DbAddAccount.protocols'
+
+interface IDbAddAccountProps {
+  hasher: IHasher
+  addAccountRepository: IAddAccountRepository
+}
 export class DbAddAccount implements IAddAccount {
   private readonly hasher: IHasher
   private readonly addAccountRepository: IAddAccountRepository
-  constructor (
-    hasher: IHasher,
-    addAccountRepository: IAddAccountRepository
-  ) {
-    this.hasher = hasher
-    this.addAccountRepository = addAccountRepository
+  constructor (props: IDbAddAccountProps) {
+    Object.assign(this, props)
   }
 
   async add (account: IAddAccountModel): Promise<IAccountModel> {

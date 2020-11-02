@@ -36,7 +36,10 @@ const makeControllerStub = (): IController => {
 const makeSut = (): IISutTypes => {
   const controllerStub = makeControllerStub()
   const logErrorRepositoryStub = makeLogErrorRepository()
-  const sut = new LogControllerDecorator(controllerStub, logErrorRepositoryStub)
+  const sut = new LogControllerDecorator({
+    controller: controllerStub,
+    logErrorRepository: logErrorRepositoryStub
+  })
   return {
     sut, controllerStub, logErrorRepositoryStub
   }

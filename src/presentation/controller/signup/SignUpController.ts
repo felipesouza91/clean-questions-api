@@ -8,13 +8,17 @@ import {
 import { badRequest, serverError, created } from '../../helpers/http/HttpHelper'
 import { IValidation } from '../../protocols/IValidation'
 
+interface ISignUpControllerProps {
+  addAccount: IAddAccount
+  validation: IValidation
+}
+
 export class SignUpController implements IController {
   private readonly addAccount: IAddAccount
   private readonly validation: IValidation
 
-  constructor (addAccount: IAddAccount,validation: IValidation) {
-    this.addAccount = addAccount
-    this.validation = validation
+  constructor (props: ISignUpControllerProps) {
+    Object.assign(this, props)
   }
 
   async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {

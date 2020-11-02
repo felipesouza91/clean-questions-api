@@ -19,16 +19,9 @@ export class DbAuthentication implements IAuthentication {
   private readonly hashCompare: IHashCompare
   private readonly encrypter: IEncrypter
   private readonly updateAccessTokenRepository: IUpdateAccessTokenRepository
-  constructor ({
-    loadAccountByEmailRepository,
-    hashCompare,
-    encrypter,
-    updateAccessTokenRepository
-  }: IDbAuthenticationProps) {
-    this.loadAccountByEmailRepository = loadAccountByEmailRepository
-    this.hashCompare = hashCompare
-    this.encrypter = encrypter
-    this.updateAccessTokenRepository = updateAccessTokenRepository
+
+  constructor (props: IDbAuthenticationProps) {
+    Object.assign(this, props)
   }
 
   async auth ({ email, password }: IAuthenticationModel): Promise<string> {

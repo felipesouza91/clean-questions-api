@@ -4,9 +4,8 @@ import { IHashCompare } from '../../../data/protocols/cryptography/IHashCompare'
 import { IHasher } from '../../../data/protocols/cryptography/IHasher'
 
 export class BcryptAdapter implements IHasher, IHashCompare {
-  private readonly salt: number
-  constructor (salt: number) {
-    this.salt = salt
+  constructor (private readonly salt: number) {
+
   }
 
   async compare (value: string, hashed: string): Promise<boolean> {

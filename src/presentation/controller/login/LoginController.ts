@@ -4,12 +4,16 @@ import { badRequest, serverError, unauthorized, ok } from '../../helpers/http/Ht
 import { IAuthentication } from '../../../domain/usecases/IAuthentication'
 import { IValidation } from '../signup/SignUpController.protocols'
 
+interface ILoginControllerProps {
+  validation: IValidation
+  authentication: IAuthentication
+}
+
 export class LoginController implements IController {
   private readonly validation: IValidation
   private readonly authentication: IAuthentication
-  constructor (validation: IValidation,authentication: IAuthentication) {
-    this.validation = validation
-    this.authentication = authentication
+  constructor (props: ILoginControllerProps) {
+    Object.assign(this, props)
   }
 
   async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {

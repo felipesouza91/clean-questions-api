@@ -53,7 +53,10 @@ const makeValidation = (): IValidation => {
 const makeSut = (): ISutTypes => {
   const addAccountStub = makeAddAccount()
   const validationStub = makeValidation()
-  const sut = new SignUpController(addAccountStub,validationStub)
+  const sut = new SignUpController({
+    addAccount: addAccountStub,
+    validation: validationStub
+  })
   return {
     sut,
     addAccountStub,

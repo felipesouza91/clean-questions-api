@@ -40,7 +40,10 @@ const makeHasherStub = (): IHasher => {
 const makeSut = (): IISutTypes => {
   const addAccountRepositoryStub = makeAddAccountRepository()
   const hasherStub = makeHasherStub()
-  const sut = new DbAddAccount(hasherStub, addAccountRepositoryStub)
+  const sut = new DbAddAccount({
+    hasher: hasherStub,
+    addAccountRepository: addAccountRepositoryStub
+  })
   return {
     sut,
     hasherStub,

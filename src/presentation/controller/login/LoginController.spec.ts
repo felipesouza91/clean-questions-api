@@ -40,8 +40,10 @@ const makeFakeRequest = (): IHttpRequest => {
 const makeSut = (): IISutTypes => {
   const authenticationSub = makeAuthentication()
   const validationStub = makeValidation()
-  const sut = new LoginController(validationStub,authenticationSub)
-
+  const sut = new LoginController({
+    validation: validationStub,
+    authentication: authenticationSub
+  })
   return { sut, authenticationSub, validationStub }
 }
 

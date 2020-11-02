@@ -1,7 +1,7 @@
 import { LogControllerDecorator } from './Log'
 import { IHttpRequest, IHttpResponse, IController } from '../../presentation/protocols'
 import { serverError } from '../../presentation/helpers/http/HttpHelper'
-import { ILogErrorRepository } from '../../data/protocols/db/ILogErrorRepository'
+import { ILogErrorRepository } from '../../data/protocols/db/log/ILogErrorRepository'
 
 interface IISutTypes {
   sut: LogControllerDecorator

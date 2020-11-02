@@ -5,7 +5,7 @@ import {
   IAddAccountModel,
   IAccountModel,
   IValidation
-} from './SignUp.protocols'
+} from './SignUpController.protocols'
 import { IHttpRequest } from '../../protocols'
 import { badRequest } from '../../helpers/http/HttpHelper'
 

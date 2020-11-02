@@ -8,10 +8,9 @@ import { SignUpController } from '../../../presentation/controller/signup/SignUp
 import { IController } from '../../../presentation/protocols'
 import { LogControllerDecorator } from '../../decorator/Log'
 import { makeSignUpValidation } from './signup-validation'
-
+import config from '../../config/env'
 export const makeSignupController = (): IController => {
-  const salt = 12
-  const bcryptAdapter = new BcryptAdapter(salt)
+  const bcryptAdapter = new BcryptAdapter(Number(config.salt))
   const accountRepository = new AccountMongoRepository()
   const dbAddAccount = new DbAddAccount({ hasher: bcryptAdapter, addAccountRepository: accountRepository })
   const controller = new SignUpController({ addAccount: dbAddAccount,validation: makeSignUpValidation() })

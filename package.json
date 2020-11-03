@@ -58,5 +58,8 @@
     "mongodbMemoryServer": {
       "version": "4.4.1"
     }
+  },
+  "engines": {
+    "node": "12.x"
   }
 }

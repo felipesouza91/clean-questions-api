@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  mongodb-service:
+    container_name: mongo-container
+    image: mongo
+    restart: always
+    volumes:
+      - ./data:/data/db
+    ports:
+      - '27017:27017'
+
+  clean-node-api:
+    container_name: api-container
+    build: .
+    image: clean-node-api
+    restart: always
+    command: npm start
+    volumes:
+      - ./dist:/usr/app/clean-api/dist
+    ports:
+      - '5050:5050'
+    environment:
+      - MONGO_URL=mongodb://mongodb-service:27017/clean-node-api
+      - JWT_SECRET=IrmH9velM4yidlX9GWdquRRrP9l5h4A4aebJ
+    links:
+      - mongodb-service

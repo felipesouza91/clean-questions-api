@@ -7,6 +7,12 @@ export const badRequest = (error: Error): IHttpResponse => {
     body: { error: error.message }
   }
 }
+export const forbidden = (error: Error): IHttpResponse => {
+  return {
+    statusCode: 400,
+    body: { error: error.message }
+  }
+}
 export const serverError = (error: Error): IHttpResponse => {
   return {
     statusCode: 500,

@@ -6,8 +6,9 @@ import {
   IAuthentication
 } from './SignUpController.protocols'
 
-import { badRequest, serverError, ok } from '../../helpers/http/HttpHelper'
+import { badRequest, serverError, ok, forbidden } from '../../helpers/http/HttpHelper'
 import { IValidation } from '../../protocols/IValidation'
+import { EmailInUseError } from '../../erros'
 
 interface ISignUpControllerProps {
   addAccount: IAddAccount
@@ -30,7 +31,10 @@ export class SignUpController implements IController {
         return badRequest(error)
       }
       const { name, password, email } = httpRequest.body
-      await this.addAccount.add({ name, password, email })
+      const account = await this.addAccount.add({ name, password, email })
+      if (!account) {
+        return forbidden(new EmailInUseError())
+      }
       const accessToken = await this.authentication.auth({ email, password })
       return ok({ accessToken })
     } catch (error) {

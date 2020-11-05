@@ -9,7 +9,7 @@ import {
   IAuthenticationModel
 } from './SignUpController.protocols'
 import { IHttpRequest } from '../../protocols'
-import { badRequest, serverError } from '../../helpers/http/HttpHelper'
+import { badRequest, ok, serverError } from '../../helpers/http/HttpHelper'
 
 interface ISutTypes {
   sut: SignUpController
@@ -123,8 +123,7 @@ describe('SingUp Controller', () => {
     const { sut } = makeSut()
     const httpRequest = makeFakeRequest()
     const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse.statusCode).toBe(201)
-    expect(httpResponse.body).toEqual(makeFakeAccount())
+    expect(httpResponse).toEqual(ok({ accessToken: 'any_token' }))
   })
 
   test('Shoud call Validation with  correct values', async () => {

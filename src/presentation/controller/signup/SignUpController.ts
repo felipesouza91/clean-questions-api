@@ -2,7 +2,8 @@ import {
   IHttpRequest,
   IHttpResponse,
   IController,
-  IAddAccount
+  IAddAccount,
+  IAuthentication
 } from './SignUpController.protocols'
 
 import { badRequest, serverError, created } from '../../helpers/http/HttpHelper'
@@ -11,12 +12,13 @@ import { IValidation } from '../../protocols/IValidation'
 interface ISignUpControllerProps {
   addAccount: IAddAccount
   validation: IValidation
+  authentication: IAuthentication
 }
 
 export class SignUpController implements IController {
   private readonly addAccount: IAddAccount
   private readonly validation: IValidation
-
+  private readonly authentication: IAuthentication
   constructor (props: ISignUpControllerProps) {
     Object.assign(this, props)
   }
@@ -28,8 +30,9 @@ export class SignUpController implements IController {
         return badRequest(error)
       }
       const { name, password, email } = httpRequest.body
-      const object = await this.addAccount.add({ name, password, email })
-      return created(object)
+      const account = await this.addAccount.add({ name, password, email })
+      await this.authentication.auth({ email, password })
+      return created(account)
     } catch (error) {
       return serverError(error)
     }

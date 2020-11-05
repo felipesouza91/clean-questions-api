@@ -17,7 +17,7 @@ services:
     command: bash -c "npm install --only=prod && npm run debug"
     volumes:
       - ./package.json:/usr/app/clean-api/package.json
-      - ./dist:/usr/app/clean-api/dist
+      - ./dist/:/usr/app/clean-api/dist/
     ports:
       - '5050:5050'
       - '9222:9222'

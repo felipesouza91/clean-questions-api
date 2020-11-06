@@ -7,5 +7,9 @@ import { IAddAccount } from '../../../../domain/usecases/IAddAccount'
 export const makeAddAccount = (): IAddAccount => {
   const bcryptAdapter = new BcryptAdapter(Number(config.salt))
   const accountRepository = new AccountMongoRepository()
-  return new DbAddAccount({ hasher: bcryptAdapter, addAccountRepository: accountRepository })
+  return new DbAddAccount({
+    hasher: bcryptAdapter,
+    addAccountRepository: accountRepository ,
+    loadAccountByEmailRepository: accountRepository
+  })
 }

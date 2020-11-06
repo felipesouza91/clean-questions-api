@@ -7,7 +7,7 @@ import {
 } from './SignUpController.protocols'
 
 import { badRequest, serverError, created, forbidden } from '../../helpers/http/HttpHelper'
-import { IValidation } from '../../protocols/IValidation'
+import { IValidation } from '../../protocols'
 import { EmailInUseError } from '../../erros'
 
 interface ISignUpControllerProps {

@@ -1,11 +1,13 @@
-import { CompareFieldValidation } from '../../../../presentation/helpers/validators/CompareFieldValidation'
-import { EmailValidation } from '../../../../presentation/helpers/validators/EmailValidation'
-import { RequiredFieldValidation } from '../../../../presentation/helpers/validators/RequiredFieldValidation'
 
-import { ValidationComposite } from '../../../../presentation/helpers/validators/Validation-composite'
-import { IValidation } from '../../../../presentation/protocols/IValidation'
-import { EmailValidatorAdapter } from '../../../adapter/validators/EmailValidatorAdapter'
+import { EmailValidatorAdapter } from '../../../../infra/validators/EmailValidatorAdapter'
+import { IValidation } from '../../../../presentation/protocols'
 
+import {
+  CompareFieldValidation,
+  RequiredFieldValidation,
+  EmailValidation,
+  ValidationComposite
+} from '../../../../validation/validators'
 export const makeSignUpValidation = (): ValidationComposite => {
   const validations: IValidation[] = []
   for (const field of ['name', 'email', 'password', 'passwordConfirmation']) {

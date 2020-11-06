@@ -1,5 +1,6 @@
-import { IValidation } from '../../protocols/IValidation'
-import { MissingParamError } from '../../erros'
+
+import { MissingParamError } from '../../presentation/erros'
+import { IValidation } from '../../presentation/protocols'
 
 export class RequiredFieldValidation implements IValidation {
   constructor (

@@ -21,12 +21,14 @@ export class DbAddAccount implements IAddAccount {
   }
 
   async add (account: IAddAccountModel): Promise<IAccountModel> {
-    this.loadAccountByEmailRepository.loadByEmail(account.email)
-
+    const existedAccount = await this.loadAccountByEmailRepository.loadByEmail(account.email)
+    if (existedAccount) {
+      return null
+    }
     const hasehdPassword = await this.hasher.hash(account.password)
-    const accountData = await this.addAccountRepository.add(
+    const savedAccount = await this.addAccountRepository.add(
       Object.assign({}, account, { password: hasehdPassword })
     )
-    return accountData
+    return savedAccount
   }
 }

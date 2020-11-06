@@ -29,7 +29,7 @@ const makeFakeAuthentication = (): IAuthenticationModel => ({
   password: 'any_password'
 })
 
-const makeLoadAccountByEmailReposiotyStub = (): ILoadAccountByEmailRepository => {
+const makeLoadAccountByEmailRepositotyStub = (): ILoadAccountByEmailRepository => {
   class LoadAccountByEmailRepositoryStub
   implements ILoadAccountByEmailRepository {
     async loadByEmail (email: string): Promise<IAccountModel> {
@@ -68,7 +68,7 @@ const makeEncrypterStub = (): IEncrypter => {
 }
 
 const makeSut = (): IISutTypes => {
-  const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailReposiotyStub()
+  const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepositotyStub()
   const hashCompareStub = makeCompareHash()
   const encrypterStub = makeEncrypterStub()
   const updateAccessTokenRepositoryStub = makeUpdateAccessTokenRepositoryStub()

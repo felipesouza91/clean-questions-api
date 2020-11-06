@@ -9,7 +9,7 @@ import {
   IAuthenticationModel
 } from './SignUpController.protocols'
 import { IHttpRequest } from '../../protocols'
-import { badRequest, ok, serverError, forbidden } from '../../helpers/http/HttpHelper'
+import { badRequest, serverError, forbidden, created } from '../../helpers/http/HttpHelper'
 
 interface ISutTypes {
   sut: SignUpController
@@ -123,7 +123,7 @@ describe('SingUp Controller', () => {
     const { sut } = makeSut()
     const httpRequest = makeFakeRequest()
     const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual(ok({ accessToken: 'any_token' }))
+    expect(httpResponse).toEqual(created({ accessToken: 'any_token' }))
   })
 
   test('Shoud return 403 if AddAccount returns null', async () => {

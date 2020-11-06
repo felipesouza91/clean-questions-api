@@ -6,7 +6,7 @@ import {
   IAuthentication
 } from './SignUpController.protocols'
 
-import { badRequest, serverError, ok, forbidden } from '../../helpers/http/HttpHelper'
+import { badRequest, serverError, created, forbidden } from '../../helpers/http/HttpHelper'
 import { IValidation } from '../../protocols/IValidation'
 import { EmailInUseError } from '../../erros'
 
@@ -36,7 +36,7 @@ export class SignUpController implements IController {
         return forbidden(new EmailInUseError())
       }
       const accessToken = await this.authentication.auth({ email, password })
-      return ok({ accessToken })
+      return created({ accessToken })
     } catch (error) {
       return serverError(error)
     }

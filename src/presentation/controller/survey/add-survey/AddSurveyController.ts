@@ -1,13 +1,16 @@
+
 import { badRequest } from '../../../helpers/http/HttpHelper'
 import { IValidation } from '../../../protocols'
-import { IController, IHttpRequest, IHttpResponse } from './AddSurveyController.protocols'
+import { IController, IHttpRequest, IHttpResponse, IAddSurvey } from './AddSurveyController.protocols'
 
 interface IAddSurveyControllerProps {
   validation: IValidation
+  addSurvey: IAddSurvey
 }
 
 export class AddSurveyController implements IController {
   private readonly validation: IValidation
+  private readonly addSurvey: IAddSurvey
 
   constructor (props: IAddSurveyControllerProps) {
     Object.assign(this, props)
@@ -18,6 +21,8 @@ export class AddSurveyController implements IController {
     if (error) {
       return badRequest(error)
     }
-    return await new Promise((resolve) => resolve(null))
+    const { answers, question } = httpRequest.body
+    await this.addSurvey.add({ answers, question })
+    return null
   }
 }

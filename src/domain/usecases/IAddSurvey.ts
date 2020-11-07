@@ -10,5 +10,5 @@ export interface IAddSurveyModel {
 }
 
 export interface IAddSurvey {
-  add: (account: IAddSurveyModel) => Promise<void>
+  add: (surveyData: IAddSurveyModel) => Promise<void>
 }

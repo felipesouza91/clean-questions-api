@@ -1,6 +1,0 @@
-export * from '../../protocols'
-export * from '../../../domain/usecases/IAddAccount'
-export * from '../../../domain/models/IAccountModel'
-export * from '../../protocols/IValidation'
-export * from '../login/LoginController.protocols'
-export * from '../../../domain/usecases/IAuthentication'

@@ -25,10 +25,17 @@ export const unauthorized = (): IHttpResponse => {
     body: new UnauthorizedError()
   }
 }
+
 export const created = (object: any): IHttpResponse => {
   return {
     statusCode: 201,
     body: object
+  }
+}
+export const noContent = (): IHttpResponse => {
+  return {
+    statusCode: 204,
+    body: null
   }
 }
 

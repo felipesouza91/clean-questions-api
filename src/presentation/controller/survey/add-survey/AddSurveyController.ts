@@ -1,5 +1,5 @@
 
-import { badRequest, serverError } from '../../../helpers/http/HttpHelper'
+import { badRequest, noContent, serverError } from '../../../helpers/http/HttpHelper'
 import { IValidation } from '../../../protocols'
 import { IController, IHttpRequest, IHttpResponse, IAddSurvey } from './AddSurveyController.protocols'
 
@@ -24,7 +24,7 @@ export class AddSurveyController implements IController {
       }
       const { answers, question } = httpRequest.body
       await this.addSurvey.add({ answers, question })
-      return null
+      return noContent()
     } catch (error) {
       return serverError(error)
     }

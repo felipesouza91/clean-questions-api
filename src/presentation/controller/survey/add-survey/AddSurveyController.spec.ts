@@ -1,6 +1,6 @@
 import { IValidation, IHttpRequest, IAddSurvey,IAddSurveyModel } from './AddSurveyController.protocols'
 import { AddSurveyController } from './AddSurveyController'
-import { badRequest, serverError } from '../../../helpers/http/HttpHelper'
+import { badRequest, serverError, noContent } from '../../../helpers/http/HttpHelper'
 
 interface ISutType {
   sut: AddSurveyController
@@ -81,5 +81,11 @@ describe('Add Survey Controller', () => {
     jest.spyOn(addSurveyStub, 'add').mockRejectedValueOnce(new Error())
     const response = await sut.handle(makeFakeHttpRequest())
     expect(response).toEqual(serverError(new Error()))
+  })
+
+  test('should returns 204 on success', async () => {
+    const { sut } = makeSut()
+    const response = await sut.handle(makeFakeHttpRequest())
+    expect(response).toEqual(noContent())
   })
 })

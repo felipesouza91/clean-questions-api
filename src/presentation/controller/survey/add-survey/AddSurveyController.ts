@@ -1,3 +1,4 @@
+import { badRequest } from '../../../helpers/http/HttpHelper'
 import { IValidation } from '../../../protocols'
 import { IController, IHttpRequest, IHttpResponse } from './AddSurveyController.protocols'
 
@@ -13,7 +14,10 @@ export class AddSurveyController implements IController {
   }
 
   async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
-    this.validation.validate(httpRequest.body)
+    const error = this.validation.validate(httpRequest.body)
+    if (error) {
+      return badRequest(error)
+    }
     return await new Promise((resolve) => resolve(null))
   }
 }

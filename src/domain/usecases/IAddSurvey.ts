@@ -1,6 +1,6 @@
 
 interface IAnswer {
-  image: string
+  image?: string
   answer: string
 }
 

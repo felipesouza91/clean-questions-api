@@ -9,7 +9,7 @@ export const badRequest = (error: Error): IHttpResponse => {
 }
 export const forbidden = (error: Error): IHttpResponse => {
   return {
-    statusCode: 400,
+    statusCode: 403,
     body: { error: error.message }
   }
 }

@@ -1,7 +1,11 @@
-import { ILoadAccountByToken } from '../../domain/usecases/ILoadAccountByToken'
-import { AccessDeniedError } from '../erros'
-import { forbidden, ok, serverError } from '../helpers/http/HttpHelper'
-import { IHttpRequest, IHttpResponse, IMiddleware } from '../protocols'
+import {
+  ILoadAccountByToken,
+  AccessDeniedError ,
+  forbidden,
+  ok,
+  serverError,
+  IHttpRequest, IHttpResponse, IMiddleware
+} from './AuthMiddleware.protocols'
 
 interface IAuthMiddlewareProps {
   loadAccountByToken: ILoadAccountByToken

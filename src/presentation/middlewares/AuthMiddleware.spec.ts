@@ -1,9 +1,14 @@
 import { AuthMiddleware } from './AuthMiddleware'
-import { forbidden, ok, serverError } from '../helpers/http/HttpHelper'
-import { AccessDeniedError } from '../erros'
-import { IHttpRequest, IMiddleware } from '../protocols'
-import { IAccountModel } from '../../domain/models/IAccountModel'
-import { ILoadAccountByToken } from '../../domain/usecases/ILoadAccountByToken'
+import {
+  forbidden,
+  ok,
+  serverError,
+  AccessDeniedError,
+  IHttpRequest,
+  IMiddleware ,
+  IAccountModel ,
+  ILoadAccountByToken
+} from './AuthMiddleware.protocols'
 
 interface ISutTypes {
   sut: IMiddleware

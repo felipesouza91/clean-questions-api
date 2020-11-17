@@ -1,20 +1,27 @@
 import jwt from 'jsonwebtoken'
+import { IDecrypter } from '../../../data/protocols/cryptography/IDecrypter'
 import { IEncrypter } from '../../../data/protocols/cryptography/IEncrypter'
 import { JwtAdapter } from './JwtAdapter'
 interface ISutType {
   sut: IEncrypter
+  sutDecripty: IDecrypter
 }
 
 jest.mock('jsonwebtoken', () => ({
-  sign (): string {
+  async sign (): Promise<string> {
     return 'any_token'
+  },
+  async verify (): Promise<string| object> {
+    return 'any_value'
   }
 }))
 
 const makeSut = (): ISutType => {
   const sut = new JwtAdapter('secret')
+
   return {
-    sut
+    sut,
+    sutDecripty: sut
   }
 }
 
@@ -38,6 +45,15 @@ describe('Jwt Adapter ', () => {
       jest.spyOn(jwt, 'sign').mockImplementationOnce(() => new Error())
       const response = sut.encrypt('any_id')
       expect(response).rejects.toThrow()
+    })
+  })
+
+  describe('decrypt()', () => {
+    test('should call verify with correct values', async () => {
+      const { sutDecripty } = makeSut()
+      const signSpy = jest.spyOn(jwt, 'verify')
+      await sutDecripty.decrypt('any_token')
+      expect(signSpy).toHaveBeenLastCalledWith('any_token', 'secret')
     })
   })
 })

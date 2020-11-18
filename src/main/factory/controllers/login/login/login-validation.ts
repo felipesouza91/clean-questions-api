@@ -1,7 +1,7 @@
 
-import { EmailValidation, RequiredFieldValidation , ValidationComposite } from '../../../../validation/validators'
-import { IValidation } from '../../../../presentation/protocols'
-import { EmailValidatorAdapter } from '../../../../infra/validators/EmailValidatorAdapter'
+import { EmailValidation, RequiredFieldValidation , ValidationComposite } from '../../../../../validation/validators'
+import { IValidation } from '../../../../../presentation/protocols'
+import { EmailValidatorAdapter } from '../../../../../infra/validators/EmailValidatorAdapter'
 
 export const makeLoginValidation = (): ValidationComposite => {
   const validations: IValidation[] = []

@@ -7,6 +7,7 @@ interface IAnswer {
 export interface IAddSurveyModel {
   question: string
   answers: IAnswer[]
+  date: Date
 }
 
 export interface IAddSurvey {

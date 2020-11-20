@@ -12,6 +12,6 @@ export class DbAddSurvey implements IAddSurvey {
   }
 
   async add (surveyData: IAddSurveyModel): Promise<void> {
-    await this.addSurveyRepository.add(surveyData)
+    await this.addSurveyRepository.add({ ...surveyData })
   }
 }

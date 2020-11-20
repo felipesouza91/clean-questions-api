@@ -1,12 +1,8 @@
-
-interface IAnswer {
-  image?: string
-  answer: string
-}
+import { IAnswerModel } from '../models/ISurveyModel'
 
 export interface IAddSurveyModel {
   question: string
-  answers: IAnswer[]
+  answers: IAnswerModel[]
   date: Date
 }
 

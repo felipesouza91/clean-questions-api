@@ -77,6 +77,23 @@ describe('Survey Routes', () => {
         .expect(403)
     })
 
+    test('should return 204 on load Surveys return empty surveys', async () => {
+      const account = await accountCollection.insertOne({
+        name: 'any_name',
+        email: 'any_email@email.com',
+        password: 'any_password',
+        role: 'admin'
+
+      })
+      const id = account.ops[0]._id
+      const accessToken = sign({ id }, env.jwtSecret)
+      await accountCollection.updateOne({ _id: id }, { $set: { accessToken } })
+      await request(app)
+        .get('/api/surveys')
+        .set('x-access-token', accessToken)
+        .expect(204)
+    })
+
     test('should return 200 on load Surveys', async () => {
       await surveyCollection.insertOne({
         question: 'any_question',

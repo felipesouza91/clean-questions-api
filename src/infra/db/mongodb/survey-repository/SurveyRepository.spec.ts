@@ -55,5 +55,11 @@ describe('Survey Mongo Repository', () => {
       expect(surveys).toBeTruthy()
       expect(surveys.length).toBe(2)
     })
+    test('should empty list of surveys', async () => {
+      const sut = makeSut()
+      const surveys = await sut.loadAll()
+      expect(surveys).toBeTruthy()
+      expect(surveys.length).toBe(0)
+    })
   })
 })

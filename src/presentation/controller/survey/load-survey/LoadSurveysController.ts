@@ -1,5 +1,5 @@
 import { IController, IHttpRequest, IHttpResponse, ILoadSurveys } from './LoadSurveysController.protocols'
-
+import { ok } from '../../../helpers/http/HttpHelper'
 interface ILoadSurveysControllerProps {
   loadSurveys: ILoadSurveys
 }
@@ -11,7 +11,7 @@ export class LoadSurveysController implements IController {
   }
 
   async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
-    await this.loadSurveys.load()
-    return await Promise.resolve(null)
+    const surveys = await this.loadSurveys.load()
+    return ok(surveys)
   }
 }

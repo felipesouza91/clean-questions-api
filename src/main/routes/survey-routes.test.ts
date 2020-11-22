@@ -4,10 +4,24 @@ import { sign } from 'jsonwebtoken'
 import { MongoHelper } from '../../infra/db/mongodb/helpers/MongoHelper'
 import app from '../config/app'
 import env from '../config/env'
+let surveyCollection: Collection
+let accountCollection: Collection
+
+const makeAccessToken = async (): Promise<string> => {
+  const account = await accountCollection.insertOne({
+    name: 'any_name',
+    email: 'any_email@email.com',
+    password: 'any_password',
+    role: 'admin'
+
+  })
+  const id = account.ops[0]._id
+  const accessToken = sign({ id }, env.jwtSecret)
+  await accountCollection.updateOne({ _id: id }, { $set: { accessToken } })
+  return accessToken
+}
 
 describe('Survey Routes', () => {
-  let surveyCollection: Collection
-  let accountCollection: Collection
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
   })
@@ -41,16 +55,7 @@ describe('Survey Routes', () => {
         .expect(403)
     })
     test('Should return 204 on add survey with accessToken', async () => {
-      const account = await accountCollection.insertOne({
-        name: 'any_name',
-        email: 'any_email@email.com',
-        password: 'any_password',
-        role: 'admin'
-
-      })
-      const id = account.ops[0]._id
-      const accessToken = sign({ id }, env.jwtSecret)
-      await accountCollection.updateOne({ _id: id }, { $set: { accessToken } })
+      const accessToken = await makeAccessToken()
       await request(app)
         .post('/api/surveys')
         .set('x-access-token', accessToken)
@@ -78,16 +83,7 @@ describe('Survey Routes', () => {
     })
 
     test('should return 204 on load Surveys return empty surveys', async () => {
-      const account = await accountCollection.insertOne({
-        name: 'any_name',
-        email: 'any_email@email.com',
-        password: 'any_password',
-        role: 'admin'
-
-      })
-      const id = account.ops[0]._id
-      const accessToken = sign({ id }, env.jwtSecret)
-      await accountCollection.updateOne({ _id: id }, { $set: { accessToken } })
+      const accessToken = await makeAccessToken()
       await request(app)
         .get('/api/surveys')
         .set('x-access-token', accessToken)
@@ -108,16 +104,7 @@ describe('Survey Routes', () => {
         ],
         date: new Date()
       })
-      const account = await accountCollection.insertOne({
-        name: 'any_name',
-        email: 'any_email@email.com',
-        password: 'any_password',
-        role: 'admin'
-
-      })
-      const id = account.ops[0]._id
-      const accessToken = sign({ id }, env.jwtSecret)
-      await accountCollection.updateOne({ _id: id }, { $set: { accessToken } })
+      const accessToken = await makeAccessToken()
       await request(app)
         .get('/api/surveys')
         .set('x-access-token', accessToken)

@@ -10,7 +10,7 @@ export const badRequest = (error: Error): IHttpResponse => {
 export const forbidden = (error: Error): IHttpResponse => {
   return {
     statusCode: 403,
-    body: { error: error.message }
+    body: error.message
   }
 }
 export const serverError = (error: Error): IHttpResponse => {

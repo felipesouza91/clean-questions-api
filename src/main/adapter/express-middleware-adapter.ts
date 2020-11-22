@@ -10,9 +10,9 @@ export const adaptMiddleware = (middleware: IMiddleware) => {
       Object.assign(req, httpResponse.body)
       next()
     } else {
-      res
+      return res
         .status(httpResponse.statusCode)
-        .json({ error: httpResponse.body.message })
+        .json({ error: httpResponse.body })
     }
   }
 }

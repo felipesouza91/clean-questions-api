@@ -1,7 +1,7 @@
-import { IController, IHttpRequest, IHttpResponse } from '../../../protocols'
-import { badRequest, serverError, unauthorized, ok } from '../../../helpers/http/HttpHelper'
+import { IController, IHttpRequest, IHttpResponse } from '@src/presentation/protocols'
+import { badRequest, serverError, unauthorized, ok } from '@src/presentation/helpers/http/HttpHelper'
 
-import { IAuthentication } from '../../../../domain/usecases/IAuthentication'
+import { IAuthentication } from '@src/domain/usecases/IAuthentication'
 import { IValidation } from '../signup/SignUpController.protocols'
 
 interface ILoginControllerProps {

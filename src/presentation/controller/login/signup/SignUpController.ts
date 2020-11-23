@@ -6,9 +6,9 @@ import {
   IAuthentication
 } from './SignUpController.protocols'
 
-import { badRequest, serverError, created, forbidden } from '../../../helpers/http/HttpHelper'
-import { IValidation } from '../../../protocols'
-import { EmailInUseError } from '../../../erros'
+import { badRequest, serverError, created, forbidden } from '@src/presentation/helpers/http/HttpHelper'
+import { IValidation } from '@src/presentation/protocols'
+import { EmailInUseError } from '@src/presentation/erros'
 
 interface ISignUpControllerProps {
   addAccount: IAddAccount

@@ -1,5 +1,5 @@
 import { IController, IHttpRequest, IHttpResponse, ILoadSurveys } from './LoadSurveysController.protocols'
-import { noContent, ok, serverError } from '../../../helpers/http/HttpHelper'
+import { noContent, ok, serverError } from '@src/presentation/helpers/http/HttpHelper'
 interface ILoadSurveysControllerProps {
   loadSurveys: ILoadSurveys
 }

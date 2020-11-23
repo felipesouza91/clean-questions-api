@@ -1,6 +1,6 @@
 import { IValidation, IHttpRequest, IAddSurvey,IAddSurveyModel } from './AddSurveyController.protocols'
 import { AddSurveyController } from './AddSurveyController'
-import { badRequest, serverError, noContent } from '../../../helpers/http/HttpHelper'
+import { badRequest, serverError, noContent } from '@src/presentation/helpers/http/HttpHelper'
 import MockDate from 'mockdate'
 
 interface ISutType {

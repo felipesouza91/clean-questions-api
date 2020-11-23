@@ -1,4 +1,4 @@
-export * from '../../../domain/usecases/ILoadSurveys'
-export * from '../../../domain/models/ISurveyModel'
+export * from '@src/domain/usecases/ILoadSurveys'
+export * from '@src/domain/models/ISurveyModel'
 
-export * from '../../protocols/db/survey/ILoadSurveysRepository'
+export * from '@src/data/protocols/db/survey/ILoadSurveysRepository'

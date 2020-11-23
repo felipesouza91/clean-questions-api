@@ -1,5 +1,5 @@
-import { IController, IHttpRequest, IHttpResponse } from '../../presentation/protocols'
-import { ILogErrorRepository } from '../../data/protocols/db/log/ILogErrorRepository'
+import { IController, IHttpRequest, IHttpResponse } from '@src/presentation/protocols'
+import { ILogErrorRepository } from '@src/data/protocols/db/log/ILogErrorRepository'
 
 interface ILogControllerDecoratorProps {
   controller: IController

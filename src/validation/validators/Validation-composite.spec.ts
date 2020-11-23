@@ -1,6 +1,6 @@
 
-import { MissingParamError } from '../../presentation/erros'
-import { IValidation } from '../../presentation/protocols'
+import { MissingParamError } from '@src/presentation/erros'
+import { IValidation } from '@src/presentation/protocols'
 import { ValidationComposite } from './Validation-composite'
 
 interface ISutTypes {

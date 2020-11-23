@@ -1,8 +1,8 @@
 import { LogControllerDecorator } from './Log'
-import { IHttpRequest, IHttpResponse, IController } from '../../presentation/protocols'
-import { serverError } from '../../presentation/helpers/http/HttpHelper'
-import { ILogErrorRepository } from '../../data/protocols/db/log/ILogErrorRepository'
+import { IHttpRequest, IHttpResponse, IController } from '@src/presentation/protocols'
 
+import { ILogErrorRepository } from '@src/data/protocols/db/log/ILogErrorRepository'
+import { serverError } from '@src/presentation/helpers/http/HttpHelper'
 interface IISutTypes {
   sut: LogControllerDecorator
   controllerStub: IController

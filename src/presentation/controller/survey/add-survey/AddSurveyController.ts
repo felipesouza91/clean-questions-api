@@ -1,6 +1,6 @@
 
-import { badRequest, noContent, serverError } from '../../../helpers/http/HttpHelper'
-import { IValidation } from '../../../protocols'
+import { badRequest, noContent, serverError } from '@src/presentation/helpers/http/HttpHelper'
+import { IValidation } from '@src/presentation/protocols'
 import { IController, IHttpRequest, IHttpResponse, IAddSurvey } from './AddSurveyController.protocols'
 
 interface IAddSurveyControllerProps {

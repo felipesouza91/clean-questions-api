@@ -1,8 +1,8 @@
 import { LoginController } from './LoginController'
 import { IController, IHttpRequest, IValidation, IAuthentication } from './LoginController.protocols'
-import { MissingParamError } from '../../../erros'
-import { badRequest, serverError, unauthorized, ok } from '../../../helpers/http/HttpHelper'
-import { IAuthenticationModel } from '../../../../domain/usecases/IAuthentication'
+import { MissingParamError } from '@src/presentation/erros'
+import { badRequest, serverError, unauthorized, ok } from '@src/presentation/helpers/http/HttpHelper'
+import { IAuthenticationModel } from '@src/domain/usecases/IAuthentication'
 
 interface IISutTypes {
   sut: IController

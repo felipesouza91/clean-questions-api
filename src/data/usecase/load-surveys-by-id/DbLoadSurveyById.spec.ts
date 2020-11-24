@@ -9,7 +9,7 @@ interface ISutTypes {
 }
 
 const makeFakeSurvey = (): ISurveyModel => ({
-  id: 'any-id',
+  id: 'any_id',
   question: 'Question',
   answers: [{ answer: 'true' }],
   date: new Date()
@@ -46,5 +46,10 @@ describe('DbLoadSurveyById useCase', () => {
     const repositoryStub = jest.spyOn(loadSurveyRepositoryStub, 'loadById')
     await sut.loadById('any_id')
     expect(repositoryStub).toHaveBeenCalledWith('any_id')
+  })
+  test('should returns a survey on success', async () => {
+    const { sut } = makeSut()
+    const response = await sut.loadById('any_id')
+    expect(response).toEqual(makeFakeSurvey())
   })
 })

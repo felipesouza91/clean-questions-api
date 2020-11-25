@@ -48,12 +48,15 @@ describe('Survey Mongo Repository', () => {
 
   describe('loadAll', () => {
     test('should load all survey', async () => {
-      await surveyCollection.insertOne(makeFakeAnswaer())
-      await surveyCollection.insertOne(makeFakeAnswaer())
+      const firstSurvey = await surveyCollection.insertOne(makeFakeAnswaer())
+      const secondSurvey = await surveyCollection.insertOne(makeFakeAnswaer())
       const sut = makeSut()
       const surveys = await sut.loadAll()
       expect(surveys).toBeTruthy()
-      expect(surveys.length).toBe(2)
+      expect([firstSurvey.ops[0]._id, secondSurvey.ops[0]._id])
+        .toEqual(expect.arrayContaining([surveys[0].id]))
+      expect([firstSurvey.ops[0]._id, secondSurvey.ops[0]._id])
+        .toEqual(expect.arrayContaining([surveys[1].id]))
     })
     test('should empty list of surveys', async () => {
       const sut = makeSut()

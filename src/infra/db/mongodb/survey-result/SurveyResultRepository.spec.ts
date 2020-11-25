@@ -1,5 +1,6 @@
 import { IAccountModel } from '@src/domain/models/IAccountModel'
 import { ISurveyModel } from '@src/domain/models/ISurveyModel'
+import { ISurveyResultModel } from '@src/domain/models/ISurveyResultModel'
 import { Collection } from 'mongodb'
 import { MongoHelper } from '../helpers/MongoHelper'
 import { SurveyResultMongoRepository } from './SurveyResultRepository'
@@ -38,6 +39,16 @@ const makeFakeSurvey = async (): Promise<ISurveyModel> => {
   return survey.ops[0] && MongoHelper.map(survey.ops[0])
 }
 
+const makeFakeSurveyResult = async (accountId: string, surveyId: string, answer: string): Promise<ISurveyResultModel> => {
+  const surveyResult = await surveyResultCollection.insertOne({
+    accountId,
+    surveyId,
+    answer,
+    date: new Date()
+  })
+  return surveyResult.ops[0] && MongoHelper.map(surveyResult.ops[0])
+}
+
 describe('Survey Mongo Repository', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
@@ -71,6 +82,21 @@ describe('Survey Mongo Repository', () => {
       expect(surveyResult).toBeTruthy()
       expect(surveyResult.id).toBeTruthy()
       expect(surveyResult.answer).toBe(survey.answers[0].answer)
+    })
+    test('Should update survey result if its not new', async () => {
+      const account = await makeFakeAccount()
+      const survey = await makeFakeSurvey()
+      const fakseSurverResult = await makeFakeSurveyResult(account.id, survey.id, survey.answers[0].answer)
+      const sut = makeSut()
+      const surveyResult = await sut.save({
+        accountId: account.id,
+        surveyId: survey.id,
+        answer: survey.answers[1].answer,
+        date: new Date()
+      })
+      expect(surveyResult).toBeTruthy()
+      expect(surveyResult.id).toEqual(fakseSurverResult.id)
+      expect(surveyResult.answer).toBe(survey.answers[1].answer)
     })
   })
 })

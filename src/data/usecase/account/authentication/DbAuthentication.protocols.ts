@@ -1,4 +1,4 @@
-export * from '@src/domain/usecases/IAuthentication'
+export * from '@src/domain/usecases/account/IAuthentication'
 export * from '@src/domain/models/IAccountModel'
 
 export * from '@src/data/protocols/cryptography/IHashCompare'

@@ -1,9 +1,10 @@
 
-import { IAccountModel } from '@src/domain/models/IAccountModel'
-import { ILoadAccountByToken } from '@src/domain/usecases/ILoadAccountByToken'
-import { IDecrypter } from '@src/data/protocols/cryptography/IDecrypter'
-import { ILoadAccountByTokenRepository } from '@src/data/protocols/db/account/ILoadAccountByTokenRepository'
-
+import {
+  IAccountModel,
+  IDecrypter,
+  ILoadAccountByTokenRepository,
+  ILoadAccountByToken
+} from './DbLoadAccountByToken.protocols'
 interface IDbLoadAccountByTokenProps {
   decrypter: IDecrypter
   loadAccountByTokenRepository: ILoadAccountByTokenRepository

@@ -1,5 +1,8 @@
-
-import { ISurveyModel, ILoadSurveyById, ILoadSurveyByIdRepository } from './DbLoadSurveyById.protocols'
+import {
+  ISurveyModel,
+  ILoadSurveyById,
+  ILoadSurveyByIdRepository
+} from './DbLoadSurveyById.protocols'
 
 interface IDbLoadSurveyByIdProps {
   loadSurveyRepository: ILoadSurveyByIdRepository

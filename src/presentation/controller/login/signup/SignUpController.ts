@@ -3,11 +3,11 @@ import {
   IHttpResponse,
   IController,
   IAddAccount,
-  IAuthentication
+  IAuthentication,
+  IValidation
 } from './SignUpController.protocols'
 
 import { badRequest, serverError, created, forbidden } from '@src/presentation/helpers/http/HttpHelper'
-import { IValidation } from '@src/presentation/protocols'
 import { EmailInUseError } from '@src/presentation/erros'
 
 interface ISignUpControllerProps {

@@ -1,7 +1,6 @@
+import { IDecrypter, ILoadAccountByTokenRepository, IAccountModel } from './DbLoadAccountByToken.protocols'
 import { DbLoadAccountByToken } from './DbLoadAccountByToken'
-import { IDecrypter } from '@src/data/protocols/cryptography/IDecrypter'
-import { ILoadAccountByTokenRepository } from '@src/data/protocols/db/account/ILoadAccountByTokenRepository'
-import { IAccountModel } from '@src/domain/models/IAccountModel'
+
 interface ISutTypes {
   sut: DbLoadAccountByToken
   decrypterStub: IDecrypter

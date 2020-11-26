@@ -4,11 +4,11 @@ import {
   IAddAccount,
   IAddAccountModel,
   IAccountModel,
+  IHttpRequest,
   IValidation,
   IAuthentication,
   IAuthenticationModel
 } from './SignUpController.protocols'
-import { IHttpRequest } from '@src/presentation/protocols'
 import { badRequest, serverError, forbidden, created } from '@src/presentation/helpers/http/HttpHelper'
 
 interface ISutTypes {

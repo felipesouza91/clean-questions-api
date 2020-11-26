@@ -1,10 +1,11 @@
-import { ILoadAccountByEmailRepository } from '../authentication/DbAuthentication.protocols'
+
 import {
   IAddAccount,
   IHasher,
   IAddAccountModel,
   IAccountModel,
-  IAddAccountRepository
+  IAddAccountRepository,
+  ILoadAccountByEmailRepository
 } from './DbAddAccount.protocols'
 
 interface IDbAddAccountProps {

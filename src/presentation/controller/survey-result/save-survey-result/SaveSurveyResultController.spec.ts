@@ -22,6 +22,9 @@ const makeFakeSurveyModel = (): ISurveyModel => ({
 const makeFakeHttpRequest = (): IHttpRequest => ({
   params: {
     survey_id: 'any_survey_id'
+  },
+  body: {
+    answer: 'any_answer'
   }
 })
 
@@ -52,11 +55,25 @@ describe('SaveSurveyResultController', () => {
     await sut.handle(makeFakeHttpRequest())
     expect(loadSurveyByIdSpty).toHaveBeenCalledWith('any_survey_id')
   })
+  
+  test('should call LoadSurveyById with correct values', async () => {
+    const { sut, loadSurveyByIdStub } = makeSut()
+    const loadSurveyByIdSpty = jest.spyOn(loadSurveyByIdStub, 'loadById')
+    await sut.handle(makeFakeHttpRequest())
+    expect(loadSurveyByIdSpty).toHaveBeenCalledWith('any_survey_id')
+  })
   test('should return 403 if LoadSurveyById return null', async () => {
     const { sut, loadSurveyByIdStub } = makeSut()
     jest.spyOn(loadSurveyByIdStub, 'loadById').mockResolvedValueOnce(null)
     const result = await sut.handle(makeFakeHttpRequest())
     expect(result).toEqual(forbidden(new InvalidParamError('survey_id')))
+  })
+
+  test('should return 403 if an invalid answer is provider', async () => {
+    const { sut } = makeSut()
+    const invalidRequest = { ...makeFakeHttpRequest(), body: { answer: 'invalid_any_answer' } }
+    const result = await sut.handle(invalidRequest)
+    expect(result).toEqual(forbidden(new InvalidParamError('answer')))
   })
 
   test('should return 500 if LoadSurveys throws', async () => {

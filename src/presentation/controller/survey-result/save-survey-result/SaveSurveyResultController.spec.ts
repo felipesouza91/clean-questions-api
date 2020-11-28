@@ -8,9 +8,11 @@ import {
   ISaveSurveyResult,
   IAddSurveyResultModel,
   ISurveyResultModel,
-  serverError
+  serverError,
+  ok
 } from './SaveSurveyResultController.protocols'
 import MockDate from 'mockdate'
+
 interface ISutType {
   sut: SaveSurveyResultController
   loadSurveyByIdStub: ILoadSurveyById
@@ -132,5 +134,11 @@ describe('SaveSurveyResultController', () => {
     jest.spyOn(saveSurveyResultStub, 'save').mockRejectedValueOnce(new Error())
     const httpResponse = await sut.handle(makeFakeHttpRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('should return 200 on success', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle(makeFakeHttpRequest())
+    expect(httpResponse).toEqual(ok(makeFakeSaveSurveyResult()))
   })
 })

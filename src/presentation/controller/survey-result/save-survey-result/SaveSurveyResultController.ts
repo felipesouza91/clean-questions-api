@@ -21,10 +21,14 @@ export class SaveSurveyResultController implements IController {
 
   async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
-      const { params } = httpRequest
+      const { params ,body } = httpRequest
       const survey = await this.loadSurveyById.loadById(params.survey_id)
       if (!survey) {
         return forbidden(new InvalidParamError('survey_id'))
+      }
+      const validAnswer = survey.answers.find(item => item.answer === body.answer)
+      if (!validAnswer) {
+        return forbidden(new InvalidParamError('answer'))
       }
       return null
     } catch (error) {

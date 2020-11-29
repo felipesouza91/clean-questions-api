@@ -1,5 +1,6 @@
 
 import { DbAddAccount } from './DbAddAccount'
+import { mockFakeAccount } from '@src/domain/test'
 import {
   IHasher,
   IAccountModel,
@@ -14,13 +15,6 @@ interface IISutTypes {
   addAccountRepositoryStub: IAddAccountRepository
   loadAccountByEmailRepositoryStub: ILoadAccountByEmailRepository
 }
-
-const mockFakeAccount = (): IAccountModel => ({
-  id: 'any_id',
-  email: 'any_email@mail.com',
-  name: 'Any Name',
-  password: 'hashed_password'
-})
 
 const mockAddAccountRepository = (): IAddAccountRepository => {
   class AddAccountRepositotyStub implements IAddAccountRepository {
@@ -95,9 +89,7 @@ describe('DbAddAccount UseCase', () => {
     const { sut, hasherStub } = mockSut()
     jest
       .spyOn(hasherStub, 'hash')
-      .mockReturnValueOnce(
-        new Promise((resolve, reject) => reject(new Error()))
-      )
+      .mockRejectedValueOnce(new Error())
     const accountData = mockFakeAccountData()
     const promise = sut.add(accountData)
     await expect(promise).rejects.toThrow()
@@ -119,9 +111,7 @@ describe('DbAddAccount UseCase', () => {
     const { sut, addAccountRepositoryStub } = mockSut()
     jest
       .spyOn(addAccountRepositoryStub, 'add')
-      .mockReturnValueOnce(
-        new Promise((resolve, reject) => reject(new Error()))
-      )
+      .mockRejectedValueOnce(new Error())
     const accountData = mockFakeAccountData()
     const promise = sut.add(accountData)
     await expect(promise).rejects.toThrow()
@@ -142,7 +132,7 @@ describe('DbAddAccount UseCase', () => {
   test('should return null if LoadAccountByEmailRepository not returns null', async () => {
     const { sut, loadAccountByEmailRepositoryStub } = mockSut()
     jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail')
-      .mockReturnValueOnce(new Promise((resolve) => resolve(mockFakeAccount())))
+      .mockResolvedValueOnce(mockFakeAccount())
     const response = await sut.add(mockFakeAccountData())
     expect(response).toBeNull()
   })

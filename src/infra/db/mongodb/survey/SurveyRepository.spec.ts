@@ -1,26 +1,13 @@
 import { Collection } from 'mongodb'
-import { IAddSurveyDTO } from '@src/domain/usecases/survey/IAddSurvey'
 import { MongoHelper } from '../helpers/MongoHelper'
 import { SurveyMongoRepository } from './SurveyRepository'
+import { mockFakeSurveyDTO } from '@src/domain/test'
 
 let surveyCollection: Collection
 
 const mockSut = (): SurveyMongoRepository => {
   return new SurveyMongoRepository()
 }
-const mockFakeAnswaer = (): IAddSurveyDTO => ({
-  question: 'any_question',
-  answers: [
-    {
-      image: 'any_image',
-      answer: 'any_answer'
-    },
-    {
-      answer: 'other_answer'
-    }
-  ],
-  date: new Date()
-})
 
 describe('Survey Mongo Repository', () => {
   beforeAll(async () => {
@@ -39,17 +26,17 @@ describe('Survey Mongo Repository', () => {
   describe('addSurveys()', () => {
     test('Should add a survey on success', async () => {
       const sut = mockSut()
-      await sut.add(mockFakeAnswaer())
+      await sut.add(mockFakeSurveyDTO())
 
-      const survey = await surveyCollection.findOne({ question: mockFakeAnswaer().question })
+      const survey = await surveyCollection.findOne({ question: mockFakeSurveyDTO().question })
       expect(survey).toBeTruthy()
     })
   })
 
   describe('loadAll', () => {
     test('should load all survey', async () => {
-      const firstSurvey = await surveyCollection.insertOne(mockFakeAnswaer())
-      const secondSurvey = await surveyCollection.insertOne(mockFakeAnswaer())
+      const firstSurvey = await surveyCollection.insertOne(mockFakeSurveyDTO())
+      const secondSurvey = await surveyCollection.insertOne(mockFakeSurveyDTO())
       const sut = mockSut()
       const surveys = await sut.loadAll()
       expect(surveys).toBeTruthy()
@@ -68,7 +55,7 @@ describe('Survey Mongo Repository', () => {
 
   describe('loadById()', () => {
     test('should load by id', async () => {
-      const result = await surveyCollection.insertOne(mockFakeAnswaer())
+      const result = await surveyCollection.insertOne(mockFakeSurveyDTO())
       const id = result.ops[0]._id
       const sut = mockSut()
       const survey = await sut.loadById(id)

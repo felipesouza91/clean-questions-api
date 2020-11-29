@@ -1,7 +1,7 @@
 
 import {
   ISaveSurveyResult,
-  IAddSurveyResultModel,
+  IAddSurveyResultDTO,
   ISurveyResultModel ,
   ISaveSurveyResultRepository
 } from './DbSaveSurveyResult.protocols'
@@ -16,7 +16,7 @@ export class DbSaveSurveyResult implements ISaveSurveyResult {
     Object.assign(this, props)
   }
 
-  async save (data: IAddSurveyResultModel): Promise<ISurveyResultModel> {
+  async save (data: IAddSurveyResultDTO): Promise<ISurveyResultModel> {
     const surveyResult = await this.saveSurveyResultRepository.save(data)
     return surveyResult
   }

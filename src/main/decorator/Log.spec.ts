@@ -33,7 +33,7 @@ const mockControllerStub = (): IController => {
   return new ControllerStub()
 }
 
-const mockSut = (): IISutTypes => {
+const makeSut = (): IISutTypes => {
   const controllerStub = mockControllerStub()
   const logErrorRepositoryStub = mockLogErrorRepository()
   const sut = new LogControllerDecorator({
@@ -56,7 +56,7 @@ const mockFakeRequest = (): IHttpRequest => ({
 
 describe('LogController Decorator', () => {
   test('Should call controller handle ', async () => {
-    const { sut, controllerStub } = mockSut()
+    const { sut, controllerStub } = makeSut()
     const handleSpy = jest.spyOn(controllerStub, 'handle')
     const httpRequest = mockFakeRequest()
     await sut.handle(httpRequest)
@@ -64,7 +64,7 @@ describe('LogController Decorator', () => {
   }
   )
   test('Should return the same result of the controller', async () => {
-    const { sut } = mockSut()
+    const { sut } = makeSut()
     const httpRequest = mockFakeRequest()
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual({
@@ -75,7 +75,7 @@ describe('LogController Decorator', () => {
     })
   })
   test('Should call LogErrorRepository with correct error if controller return a server Error', async () => {
-    const { sut, controllerStub, logErrorRepositoryStub } = mockSut()
+    const { sut, controllerStub, logErrorRepositoryStub } = makeSut()
     const logSpy = jest.spyOn(logErrorRepositoryStub, 'log')
     const fakeError = new Error()
     fakeError.stack = 'any_stack'

@@ -1,7 +1,7 @@
 
 import { ISurveyResultModel } from '@src/domain/models/ISurveyResultModel'
-import { IAddSurveyResultModel } from '@src/domain/usecases/survey-result/ISaveSurveyResult'
+import { IAddSurveyResultDTO } from '@src/domain/usecases/survey-result/ISaveSurveyResult'
 
 export interface ISaveSurveyResultRepository {
-  save: (data: IAddSurveyResultModel) => Promise<ISurveyResultModel>
+  save: (data: IAddSurveyResultDTO) => Promise<ISurveyResultModel>
 }

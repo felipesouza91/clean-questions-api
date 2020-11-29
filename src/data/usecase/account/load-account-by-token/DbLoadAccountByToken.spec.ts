@@ -1,18 +1,11 @@
 import { IDecrypter, ILoadAccountByTokenRepository, IAccountModel } from './DbLoadAccountByToken.protocols'
 import { DbLoadAccountByToken } from './DbLoadAccountByToken'
-
+import { mockFakeAccount } from '@src/domain/test'
 interface ISutTypes {
   sut: DbLoadAccountByToken
   decrypterStub: IDecrypter
   loadAccountByTokenRepositoryStub: ILoadAccountByTokenRepository
 }
-
-const mockFakeAccount = (): IAccountModel => ({
-  id: 'any_id',
-  email: 'any_email@mail.com',
-  name: 'Any Name',
-  password: 'hashed_password'
-})
 
 const mockLoadAccountByTokenRepositoryStub = (): ILoadAccountByTokenRepository => {
   class LoadAccountByTokenRepositoryStub implements ILoadAccountByTokenRepository {

@@ -1,5 +1,6 @@
 import { IAddSurvey, IAddSurveyDTO, IAddSurveyRepository } from './DbAddSurvey.protocols'
 import { DbAddSurvey } from './DbAddSurvey'
+import { mockFakeSurveyDTO } from '@src/domain/test'
 import MockDate from 'mockdate'
 interface ISutType {
   sut: IAddSurvey
@@ -14,17 +15,6 @@ const mockFakeAddSurveyRepositoryStub = (): IAddSurveyRepository => {
   }
   return new AddSurveyRepositoryStub()
 }
-
-const mockFakeAsnwaers = (): IAddSurveyDTO => ({
-  question: 'any_question',
-  answers: [
-    {
-      image: 'any_image',
-      answer: 'any_answer'
-    }
-  ],
-  date: new Date()
-})
 
 const mockSut = (): ISutType => {
   const addSurveyRepositoryStub = mockFakeAddSurveyRepositoryStub()
@@ -49,14 +39,14 @@ describe('DbAddSurvey UseCase', () => {
   test('should call AddSurveyRepository if correct values', async () => {
     const { sut, addSurveyRepositoryStub } = mockSut()
     const addSurveyRepositorySpy = jest.spyOn(addSurveyRepositoryStub, 'add')
-    await sut.add(mockFakeAsnwaers())
-    expect(addSurveyRepositorySpy).toHaveBeenCalledWith(mockFakeAsnwaers())
+    await sut.add(mockFakeSurveyDTO())
+    expect(addSurveyRepositorySpy).toHaveBeenCalledWith(mockFakeSurveyDTO())
   })
 
   test('should DbAddSurvey throws if AddSurveyRespository throws', async () => {
     const { sut, addSurveyRepositoryStub } = mockSut()
     jest.spyOn(addSurveyRepositoryStub, 'add').mockRejectedValueOnce(new Error())
-    const response = sut.add(mockFakeAsnwaers())
+    const response = sut.add(mockFakeSurveyDTO())
     expect(response).rejects.toThrow()
   })
 })

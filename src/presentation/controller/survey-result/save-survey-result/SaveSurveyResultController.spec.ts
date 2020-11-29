@@ -6,7 +6,7 @@ import {
   forbidden,
   InvalidParamError,
   ISaveSurveyResult,
-  IAddSurveyResultModel,
+  IAddSurveyResultDTO,
   ISurveyResultModel,
   serverError,
   ok
@@ -29,7 +29,7 @@ const mockFakeSurveyModel = (): ISurveyModel => ({
   date: new Date()
 })
 
-const mockFakeAddSaveSurveyResult = (): IAddSurveyResultModel => ({
+const mockFakeAddSaveSurveyResult = (): IAddSurveyResultDTO => ({
   accountId: 'any_account_id',
   answer: 'any_answer',
   surveyId: 'any_survey_id',
@@ -65,7 +65,7 @@ const mockLoadSurveyByIdStub = (): ILoadSurveyById => {
 
 const mockSaveSurveyResultStub = (): ISaveSurveyResult => {
   class SaveSurveyResultStub implements ISaveSurveyResult {
-    async save (data: IAddSurveyResultModel): Promise<ISurveyResultModel> {
+    async save (data: IAddSurveyResultDTO): Promise<ISurveyResultModel> {
       return mockFakeSaveSurveyResult()
     }
   }

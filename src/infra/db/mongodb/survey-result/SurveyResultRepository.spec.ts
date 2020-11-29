@@ -9,11 +9,11 @@ let surveyCollection: Collection
 let accountsCollection: Collection
 let surveyResultCollection: Collection
 
-const makeSut = (): SurveyResultMongoRepository => {
+const mockSut = (): SurveyResultMongoRepository => {
   return new SurveyResultMongoRepository()
 }
 
-const makeFakeAccount = async (): Promise<IAccountModel> => {
+const mockFakeAccount = async (): Promise<IAccountModel> => {
   const account = await accountsCollection.insertOne({
     name: 'any_name',
     email: 'any_email@email.com}',
@@ -22,7 +22,7 @@ const makeFakeAccount = async (): Promise<IAccountModel> => {
   return account.ops[0] && MongoHelper.map(account.ops[0])
 }
 
-const makeFakeSurvey = async (): Promise<ISurveyModel> => {
+const mockFakeSurvey = async (): Promise<ISurveyModel> => {
   const survey = await surveyCollection.insertOne({
     question: 'any_question',
     answers: [
@@ -39,7 +39,7 @@ const makeFakeSurvey = async (): Promise<ISurveyModel> => {
   return survey.ops[0] && MongoHelper.map(survey.ops[0])
 }
 
-const makeFakeSurveyResult = async (accountId: string, surveyId: string, answer: string): Promise<ISurveyResultModel> => {
+const mockFakeSurveyResult = async (accountId: string, surveyId: string, answer: string): Promise<ISurveyResultModel> => {
   const surveyResult = await surveyResultCollection.insertOne({
     accountId,
     surveyId,
@@ -69,10 +69,10 @@ describe('Survey Mongo Repository', () => {
 
   describe('addSurveys()', () => {
     test('Should add a survey result if its new', async () => {
-      const account = await makeFakeAccount()
-      const survey = await makeFakeSurvey()
+      const account = await mockFakeAccount()
+      const survey = await mockFakeSurvey()
 
-      const sut = makeSut()
+      const sut = mockSut()
       const surveyResult = await sut.save({
         accountId: account.id,
         surveyId: survey.id,
@@ -84,10 +84,10 @@ describe('Survey Mongo Repository', () => {
       expect(surveyResult.answer).toBe(survey.answers[0].answer)
     })
     test('Should update survey result if its not new', async () => {
-      const account = await makeFakeAccount()
-      const survey = await makeFakeSurvey()
-      const fakseSurverResult = await makeFakeSurveyResult(account.id, survey.id, survey.answers[0].answer)
-      const sut = makeSut()
+      const account = await mockFakeAccount()
+      const survey = await mockFakeSurvey()
+      const fakseSurverResult = await mockFakeSurveyResult(account.id, survey.id, survey.answers[0].answer)
+      const sut = mockSut()
       const surveyResult = await sut.save({
         accountId: account.id,
         surveyId: survey.id,

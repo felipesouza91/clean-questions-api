@@ -6,7 +6,7 @@ interface ISutType {
   addSurveyRepositoryStub: IAddSurveyRepository
 }
 
-const makeFakeAddSurveyRepositoryStub = (): IAddSurveyRepository => {
+const mockFakeAddSurveyRepositoryStub = (): IAddSurveyRepository => {
   class AddSurveyRepositoryStub implements IAddSurveyRepository {
     async add (data: IAddSurveyDTO): Promise<void> {
       return await Promise.resolve()
@@ -15,7 +15,7 @@ const makeFakeAddSurveyRepositoryStub = (): IAddSurveyRepository => {
   return new AddSurveyRepositoryStub()
 }
 
-const makeFakeAsnwaers = (): IAddSurveyDTO => ({
+const mockFakeAsnwaers = (): IAddSurveyDTO => ({
   question: 'any_question',
   answers: [
     {
@@ -26,8 +26,8 @@ const makeFakeAsnwaers = (): IAddSurveyDTO => ({
   date: new Date()
 })
 
-const makeSut = (): ISutType => {
-  const addSurveyRepositoryStub = makeFakeAddSurveyRepositoryStub()
+const mockSut = (): ISutType => {
+  const addSurveyRepositoryStub = mockFakeAddSurveyRepositoryStub()
   const sut = new DbAddSurvey({
     addSurveyRepository: addSurveyRepositoryStub
   })
@@ -47,16 +47,16 @@ describe('DbAddSurvey UseCase', () => {
   })
 
   test('should call AddSurveyRepository if correct values', async () => {
-    const { sut, addSurveyRepositoryStub } = makeSut()
+    const { sut, addSurveyRepositoryStub } = mockSut()
     const addSurveyRepositorySpy = jest.spyOn(addSurveyRepositoryStub, 'add')
-    await sut.add(makeFakeAsnwaers())
-    expect(addSurveyRepositorySpy).toHaveBeenCalledWith(makeFakeAsnwaers())
+    await sut.add(mockFakeAsnwaers())
+    expect(addSurveyRepositorySpy).toHaveBeenCalledWith(mockFakeAsnwaers())
   })
 
   test('should DbAddSurvey throws if AddSurveyRespository throws', async () => {
-    const { sut, addSurveyRepositoryStub } = makeSut()
+    const { sut, addSurveyRepositoryStub } = mockSut()
     jest.spyOn(addSurveyRepositoryStub, 'add').mockRejectedValueOnce(new Error())
-    const response = sut.add(makeFakeAsnwaers())
+    const response = sut.add(mockFakeAsnwaers())
     expect(response).rejects.toThrow()
   })
 })

@@ -5,7 +5,7 @@ import { ILogErrorRepository } from '@src/data/protocols/db/log/ILogErrorReposit
 
 describe('Log Mongo Repository', () => {
   let errorColletion: Collection
-  const makeSut = (): ILogErrorRepository => {
+  const mockSut = (): ILogErrorRepository => {
     return new LogMongoRepository()
   }
 
@@ -23,7 +23,7 @@ describe('Log Mongo Repository', () => {
   })
 
   test('should create an error log on success', async () => {
-    const sut = makeSut()
+    const sut = mockSut()
     await sut.log('any_error')
     const count = await errorColletion.countDocuments()
     expect(count).toBe(1)

@@ -7,22 +7,22 @@ interface ISutTypes {
   loadSurveysStub: ILoadSurveys
 
 }
-const makeFakeSurveys = (): ISurveyModel[] => {
+const mockFakeSurveys = (): ISurveyModel[] => {
   return [{ id: 'any-id', question: 'Question', answers: [{ answer: 'true' }], date: new Date() }]
 }
 
-const makeLoadSurveysStub = (): ILoadSurveys => {
+const mockLoadSurveysStub = (): ILoadSurveys => {
   class LoadSurveysStub implements ILoadSurveys {
     async load (): Promise<ISurveyModel[]> {
-      return await Promise.resolve(makeFakeSurveys())
+      return await Promise.resolve(mockFakeSurveys())
     }
   }
 
   return new LoadSurveysStub()
 }
 
-const makeSut = (): ISutTypes => {
-  const loadSurveysStub = makeLoadSurveysStub()
+const mockSut = (): ISutTypes => {
+  const loadSurveysStub = mockLoadSurveysStub()
   const sut = new LoadSurveysController({ loadSurveys: loadSurveysStub })
   return {
     sut, loadSurveysStub
@@ -38,27 +38,27 @@ describe('LoadSurveysController', () => {
   })
 
   test('should call LoadSurveys', async () => {
-    const { sut, loadSurveysStub } = makeSut()
+    const { sut, loadSurveysStub } = mockSut()
     const loadSurveysSpy = jest.spyOn(loadSurveysStub, 'load')
     await sut.handle({})
     expect(loadSurveysSpy).toHaveBeenCalled()
   })
 
   test('should return 200 on success', async () => {
-    const { sut } = makeSut()
+    const { sut } = mockSut()
     const httpResponse = await sut.handle({})
-    expect(httpResponse).toEqual(ok(makeFakeSurveys()))
+    expect(httpResponse).toEqual(ok(mockFakeSurveys()))
   })
 
   test('should return 204 if no LoadSurveys returns empty', async () => {
-    const { sut, loadSurveysStub } = makeSut()
+    const { sut, loadSurveysStub } = mockSut()
     jest.spyOn(loadSurveysStub, 'load').mockResolvedValueOnce([])
     const httpResponse = await sut.handle({})
     expect(httpResponse).toEqual(noContent())
   })
 
   test('should return 500 if LoadSurveys throws', async () => {
-    const { sut, loadSurveysStub } = makeSut()
+    const { sut, loadSurveysStub } = mockSut()
     jest.spyOn(loadSurveysStub, 'load').mockRejectedValueOnce(new Error())
     const httpResponse = await sut.handle({})
     expect(httpResponse).toEqual(serverError(new Error()))

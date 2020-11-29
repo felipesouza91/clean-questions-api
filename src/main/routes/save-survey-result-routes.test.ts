@@ -11,7 +11,7 @@ let surveyCollection: Collection
 let accountCollection: Collection
 let saveSurveyResultCollection: Collection
 
-const makeAccessToken = async (): Promise<string> => {
+const mockAccessToken = async (): Promise<string> => {
   const account = await accountCollection.insertOne({
     name: 'any_name',
     email: 'any_email@email.com',
@@ -25,7 +25,7 @@ const makeAccessToken = async (): Promise<string> => {
   return accessToken
 }
 
-const makeSurvey = async (): Promise<ISurveyModel> => {
+const mockSurvey = async (): Promise<ISurveyModel> => {
   const survey = await surveyCollection.insertOne({
     question: 'any_question',
     answers: [
@@ -68,8 +68,8 @@ describe('Save Survey Result Routes', () => {
         .expect(403)
     })
     test('Should return 200 on save survey result success', async () => {
-      const survey = await makeSurvey()
-      const accessToken = await makeAccessToken()
+      const survey = await mockSurvey()
+      const accessToken = await mockAccessToken()
       await request(app)
         .put(`/api/surveys/${survey.id}/results`)
         .set('x-access-token', accessToken)

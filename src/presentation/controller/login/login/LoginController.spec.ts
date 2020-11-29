@@ -16,7 +16,7 @@ interface IISutTypes {
   validationStub: IValidation
 }
 
-const makeValidation = (): IValidation => {
+const mockValidation = (): IValidation => {
   class ValidationStub implements IValidation {
     validate (input: any): Error {
       return null
@@ -24,7 +24,7 @@ const makeValidation = (): IValidation => {
   }
   return new ValidationStub()
 }
-const makeAuthentication = (): IAuthentication => {
+const mockAuthentication = (): IAuthentication => {
   class AuthenticationSub implements IAuthentication {
     async auth (authenticationData: IAuthenticationDTO): Promise<string> {
       return 'any_token'
@@ -33,7 +33,7 @@ const makeAuthentication = (): IAuthentication => {
   return new AuthenticationSub()
 }
 
-const makeFakeRequest = (): IHttpRequest => {
+const mockFakeRequest = (): IHttpRequest => {
   return {
     body: {
       email: 'any_email@email.com',
@@ -42,9 +42,9 @@ const makeFakeRequest = (): IHttpRequest => {
   }
 }
 
-const makeSut = (): IISutTypes => {
-  const authenticationSub = makeAuthentication()
-  const validationStub = makeValidation()
+const mockSut = (): IISutTypes => {
+  const authenticationSub = mockAuthentication()
+  const validationStub = mockValidation()
   const sut = new LoginController({
     validation: validationStub,
     authentication: authenticationSub
@@ -54,32 +54,32 @@ const makeSut = (): IISutTypes => {
 
 describe('Login Controller', () => {
   test('should call Authentication with correct values', async () => {
-    const { sut, authenticationSub } = makeSut()
+    const { sut, authenticationSub } = mockSut()
     const authSpy = jest.spyOn(authenticationSub, 'auth')
-    const httpRequest = makeFakeRequest()
+    const httpRequest = mockFakeRequest()
     await sut.handle(httpRequest)
     expect(authSpy).toHaveBeenCalledWith({ email: 'any_email@email.com', password: 'any_password' })
   })
 
   test('should return 401 if invalid credentials are provided', async () => {
-    const { sut, authenticationSub } = makeSut()
+    const { sut, authenticationSub } = mockSut()
     jest.spyOn(authenticationSub, 'auth').mockReturnValueOnce(new Promise(resolve => resolve(null)))
-    const httpRequest = makeFakeRequest()
+    const httpRequest = mockFakeRequest()
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(unauthorized())
   })
 
   test('should return 500 if Authentication throws', async () => {
-    const { sut, authenticationSub } = makeSut()
+    const { sut, authenticationSub } = mockSut()
     jest.spyOn(authenticationSub, 'auth').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
-    const httpRequest = makeFakeRequest()
+    const httpRequest = mockFakeRequest()
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(serverError(new Error()))
   })
 
   test('should return 200 if valid credentials are provided', async () => {
-    const { sut } = makeSut()
-    const httpRequest = makeFakeRequest()
+    const { sut } = mockSut()
+    const httpRequest = mockFakeRequest()
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(ok({
       accessToken: 'any_token'
@@ -87,17 +87,17 @@ describe('Login Controller', () => {
   })
 
   test('Shoud call Validation with  correct values', async () => {
-    const { sut, validationStub } = makeSut()
+    const { sut, validationStub } = mockSut()
     const validateSpy = jest.spyOn(validationStub, 'validate')
-    const httpRequest = makeFakeRequest()
+    const httpRequest = mockFakeRequest()
     await sut.handle(httpRequest)
     expect(validateSpy).toHaveBeenCalledWith(httpRequest.body)
   })
 
   test('Shoud return 400 if Validation returns an error', async () => {
-    const { sut, validationStub } = makeSut()
+    const { sut, validationStub } = mockSut()
     jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingParamError('any_field'))
-    const httpRequest = makeFakeRequest()
+    const httpRequest = mockFakeRequest()
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(badRequest(new MissingParamError('any_field')))
   })

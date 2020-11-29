@@ -7,20 +7,20 @@ interface ISutTypes {
   sut: DbLoadSurveys
   loadSurveysRepositoryStub: ILoadSurveysRepository
 }
-const makeFakeSurveys = (): ISurveyModel[] => {
+const mockFakeSurveys = (): ISurveyModel[] => {
   return [{ id: 'any-id', question: 'Question', answers: [{ answer: 'true' }], date: new Date() }]
 }
-const makeLoadSurveysRepositoryStub = (): ILoadSurveysRepository => {
+const mockLoadSurveysRepositoryStub = (): ILoadSurveysRepository => {
   class LoadSurveysRepositoryStub implements ILoadSurveysRepository {
     async loadAll (): Promise<ISurveyModel[]> {
-      return makeFakeSurveys()
+      return mockFakeSurveys()
     }
   }
   return new LoadSurveysRepositoryStub()
 }
 
-const makeSut = (): ISutTypes => {
-  const loadSurveysRepositoryStub = makeLoadSurveysRepositoryStub()
+const mockSut = (): ISutTypes => {
+  const loadSurveysRepositoryStub = mockLoadSurveysRepositoryStub()
   const sut = new DbLoadSurveys({
     loadSurveysRepository: loadSurveysRepositoryStub
   })
@@ -37,20 +37,20 @@ describe('DbLoadSurveys', () => {
     MockDate.reset()
   })
   test('should call LoadSurveysRepository ', async () => {
-    const { sut, loadSurveysRepositoryStub } = makeSut()
+    const { sut, loadSurveysRepositoryStub } = mockSut()
     const repositoryStub = jest.spyOn(loadSurveysRepositoryStub, 'loadAll')
     await sut.load()
     expect(repositoryStub).toBeCalled()
   })
 
   test('should returns a list of surveys', async () => {
-    const { sut } = makeSut()
+    const { sut } = mockSut()
     const response = await sut.load()
-    expect(response).toEqual(makeFakeSurveys())
+    expect(response).toEqual(mockFakeSurveys())
   })
 
   test('should throws if LoadSurveysRepository throws ', async () => {
-    const { sut, loadSurveysRepositoryStub } = makeSut()
+    const { sut, loadSurveysRepositoryStub } = mockSut()
     jest.spyOn(loadSurveysRepositoryStub, 'loadAll').mockRejectedValueOnce(new Error())
     const reponse = sut.load()
     expect(reponse).rejects.toThrow()

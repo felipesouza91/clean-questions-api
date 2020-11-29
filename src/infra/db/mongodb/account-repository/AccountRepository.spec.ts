@@ -4,11 +4,11 @@ import { AccountMongoRepository } from './AccountRepository'
 
 describe('Account Mongo Repository', () => {
   let accountsCollection: Collection
-  const makeSut = (): AccountMongoRepository => {
+  const mockSut = (): AccountMongoRepository => {
     return new AccountMongoRepository()
   }
 
-  const makeFakeAccount = (): any => ({
+  const mockFakeAccount = (): any => ({
     name: 'any_name',
     email: 'any_email@email.com',
     password: 'any_password'
@@ -29,8 +29,8 @@ describe('Account Mongo Repository', () => {
 
   describe('add()', () => {
     test('Should return any account on add success', async () => {
-      const sut = makeSut()
-      const account = await sut.add(makeFakeAccount())
+      const sut = mockSut()
+      const account = await sut.add(mockFakeAccount())
       expect(account).toBeTruthy()
       expect(account.id).toBeTruthy()
       expect(account.name).toBe('any_name')
@@ -41,8 +41,8 @@ describe('Account Mongo Repository', () => {
 
   describe('loadByEmail()', () => {
     test('Should return any account on loadByEmail success', async () => {
-      const sut = makeSut()
-      await accountsCollection.insertOne(makeFakeAccount())
+      const sut = mockSut()
+      await accountsCollection.insertOne(mockFakeAccount())
       const account = await sut.loadByEmail('any_email@email.com')
       expect(account).toBeTruthy()
       expect(account.id).toBeTruthy()
@@ -52,7 +52,7 @@ describe('Account Mongo Repository', () => {
     })
 
     test('Should return null if loadByEmail fails', async () => {
-      const sut = makeSut()
+      const sut = mockSut()
       const account = await sut.loadByEmail('any_email@email.com')
       expect(account).toBeFalsy()
     })
@@ -60,8 +60,8 @@ describe('Account Mongo Repository', () => {
 
   describe('updateAccessToken()', () => {
     test('Should update accessToken on updateAccessToken success', async () => {
-      const sut = makeSut()
-      const resultAccount = await accountsCollection.insertOne(makeFakeAccount())
+      const sut = mockSut()
+      const resultAccount = await accountsCollection.insertOne(mockFakeAccount())
       const fakeAccount = resultAccount.ops[0]
       expect(fakeAccount.accessToken).toBeFalsy()
       await sut.updateAccessToken(fakeAccount._id, 'any_token')
@@ -73,8 +73,8 @@ describe('Account Mongo Repository', () => {
 
   describe('loadByToken()', () => {
     test('Should return an account on loadByToken without role', async () => {
-      const sut = makeSut()
-      const resultAccount = await accountsCollection.insertOne({ ...makeFakeAccount(), accessToken: 'any_token' })
+      const sut = mockSut()
+      const resultAccount = await accountsCollection.insertOne({ ...mockFakeAccount(), accessToken: 'any_token' })
       const fakeAccount = resultAccount.ops[0]
       expect(fakeAccount.accessToken).toBeTruthy()
       const account = await sut.loadByToken('any_token')
@@ -86,9 +86,9 @@ describe('Account Mongo Repository', () => {
     })
 
     test('Should return an account on loadByToken with role', async () => {
-      const sut = makeSut()
+      const sut = mockSut()
       const fakeAccountObj = {
-        ...makeFakeAccount(),
+        ...mockFakeAccount(),
         accessToken: 'any_token',
         role: 'any_role'
       }
@@ -104,9 +104,9 @@ describe('Account Mongo Repository', () => {
     })
 
     test('Should return an account on loadByToken if use is admin', async () => {
-      const sut = makeSut()
+      const sut = mockSut()
       const fakeAccountObj = {
-        ...makeFakeAccount(),
+        ...mockFakeAccount(),
         accessToken: 'any_token',
         role: 'admin'
       }
@@ -122,9 +122,9 @@ describe('Account Mongo Repository', () => {
     })
 
     test('Should return null on loadByToken with invalid role', async () => {
-      const sut = makeSut()
+      const sut = mockSut()
       const fakeAccountObj = {
-        ...makeFakeAccount(),
+        ...mockFakeAccount(),
         accessToken: 'any_token'
       }
       const resultAccount = await accountsCollection.insertOne(fakeAccountObj)
@@ -135,7 +135,7 @@ describe('Account Mongo Repository', () => {
     })
 
     test('Should return null if loadByToken fails', async () => {
-      const sut = makeSut()
+      const sut = mockSut()
       const account = await sut.loadByToken('any_token', 'any_role')
       expect(account).toBeFalsy()
     })

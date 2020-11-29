@@ -7,7 +7,7 @@ import env from '../config/env'
 let surveyCollection: Collection
 let accountCollection: Collection
 
-const makeAccessToken = async (): Promise<string> => {
+const mockAccessToken = async (): Promise<string> => {
   const account = await accountCollection.insertOne({
     name: 'any_name',
     email: 'any_email@email.com',
@@ -55,7 +55,7 @@ describe('Survey Routes', () => {
         .expect(403)
     })
     test('Should return 204 on add survey with accessToken', async () => {
-      const accessToken = await makeAccessToken()
+      const accessToken = await mockAccessToken()
       await request(app)
         .post('/api/surveys')
         .set('x-access-token', accessToken)
@@ -83,7 +83,7 @@ describe('Survey Routes', () => {
     })
 
     test('should return 204 on load Surveys return empty surveys', async () => {
-      const accessToken = await makeAccessToken()
+      const accessToken = await mockAccessToken()
       await request(app)
         .get('/api/surveys')
         .set('x-access-token', accessToken)
@@ -104,7 +104,7 @@ describe('Survey Routes', () => {
         ],
         date: new Date()
       })
-      const accessToken = await makeAccessToken()
+      const accessToken = await mockAccessToken()
       await request(app)
         .get('/api/surveys')
         .set('x-access-token', accessToken)

@@ -2,7 +2,7 @@ import { DbAuthentication } from './DbAuthentication'
 import {
   IAuthentication,
   IAccountModel,
-  IAuthenticationModel,
+  IAuthenticationDTO,
   IHashCompare,
   IEncrypter,
   ILoadAccountByEmailRepository,
@@ -24,7 +24,7 @@ const makeFakeAccount = (): IAccountModel => ({
   password: 'hashed_password'
 })
 
-const makeFakeAuthentication = (): IAuthenticationModel => ({
+const makeFakeAuthentication = (): IAuthenticationDTO => ({
   email: 'any_email@mail.com',
   password: 'any_password'
 })

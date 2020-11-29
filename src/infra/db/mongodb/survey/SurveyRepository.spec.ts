@@ -1,5 +1,5 @@
 import { Collection } from 'mongodb'
-import { IAddSurveyModel } from '@src/domain/usecases/survey/IAddSurvey'
+import { IAddSurveyDTO } from '@src/domain/usecases/survey/IAddSurvey'
 import { MongoHelper } from '../helpers/MongoHelper'
 import { SurveyMongoRepository } from './SurveyRepository'
 
@@ -8,7 +8,7 @@ let surveyCollection: Collection
 const makeSut = (): SurveyMongoRepository => {
   return new SurveyMongoRepository()
 }
-const makeFakeAnswaer = (): IAddSurveyModel => ({
+const makeFakeAnswaer = (): IAddSurveyDTO => ({
   question: 'any_question',
   answers: [
     {

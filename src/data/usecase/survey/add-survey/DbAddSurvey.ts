@@ -1,4 +1,4 @@
-import { IAddSurvey, IAddSurveyModel, IAddSurveyRepository } from './DbAddSurvey.protocols'
+import { IAddSurvey, IAddSurveyDTO, IAddSurveyRepository } from './DbAddSurvey.protocols'
 
 interface IDbAddSurveyProps {
   addSurveyRepository: IAddSurveyRepository
@@ -11,7 +11,7 @@ export class DbAddSurvey implements IAddSurvey {
     Object.assign(this, props)
   }
 
-  async add (surveyData: IAddSurveyModel): Promise<void> {
+  async add (surveyData: IAddSurveyDTO): Promise<void> {
     await this.addSurveyRepository.add({ ...surveyData })
   }
 }

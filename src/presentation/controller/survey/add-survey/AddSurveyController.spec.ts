@@ -1,4 +1,4 @@
-import { IValidation, IHttpRequest, IAddSurvey,IAddSurveyModel } from './AddSurveyController.protocols'
+import { IValidation, IHttpRequest, IAddSurvey,IAddSurveyDTO } from './AddSurveyController.protocols'
 import { AddSurveyController } from './AddSurveyController'
 import { badRequest, serverError, noContent } from '@src/presentation/helpers/http/HttpHelper'
 import MockDate from 'mockdate'
@@ -34,7 +34,7 @@ const makeValidationStub = (): IValidation => {
 
 const makeAddSurveyStub = (): IAddSurvey => {
   class AddSurveyStub implements IAddSurvey {
-    async add (data: IAddSurveyModel): Promise<void> {
+    async add (data: IAddSurveyDTO): Promise<void> {
       return await new Promise(resolve => resolve())
     }
   }

@@ -3,7 +3,7 @@ import { DbAddAccount } from './DbAddAccount'
 import {
   IHasher,
   IAccountModel,
-  IAddAccountModel,
+  IAddAccountDTO,
   IAddAccountRepository,
   ILoadAccountByEmailRepository
 } from './DbAddAccount.protocols'
@@ -24,7 +24,7 @@ const makeFakeAccount = (): IAccountModel => ({
 
 const makeAddAccountRepository = (): IAddAccountRepository => {
   class AddAccountRepositotyStub implements IAddAccountRepository {
-    async add (accountData: IAddAccountModel): Promise<IAccountModel> {
+    async add (accountData: IAddAccountDTO): Promise<IAccountModel> {
       const fakeAccount = {
         id: 'valid_id',
         name: 'valid_name',
@@ -74,7 +74,7 @@ const makeSut = (): IISutTypes => {
   }
 }
 
-const makeFakeAccountData = (): IAddAccountModel => {
+const makeFakeAccountData = (): IAddAccountDTO => {
   return {
     name: 'valid_name',
     email: 'valid_name@email.com',

@@ -2,7 +2,7 @@
 import {
   IAddAccount,
   IHasher,
-  IAddAccountModel,
+  IAddAccountDTO,
   IAccountModel,
   IAddAccountRepository,
   ILoadAccountByEmailRepository
@@ -21,7 +21,7 @@ export class DbAddAccount implements IAddAccount {
     Object.assign(this, props)
   }
 
-  async add (account: IAddAccountModel): Promise<IAccountModel> {
+  async add (account: IAddAccountDTO): Promise<IAccountModel> {
     const existedAccount = await this.loadAccountByEmailRepository.loadByEmail(account.email)
     if (existedAccount) {
       return null

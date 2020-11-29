@@ -4,7 +4,7 @@ import {
   IHttpRequest,
   IValidation,
   IAuthentication,
-  IAuthenticationModel
+  IAuthenticationDTO
 } from './LoginController.protocols'
 import { MissingParamError } from '@src/presentation/erros'
 import { badRequest, serverError, unauthorized, ok } from '@src/presentation/helpers/http/HttpHelper'
@@ -26,7 +26,7 @@ const makeValidation = (): IValidation => {
 }
 const makeAuthentication = (): IAuthentication => {
   class AuthenticationSub implements IAuthentication {
-    async auth (authenticationData: IAuthenticationModel): Promise<string> {
+    async auth (authenticationData: IAuthenticationDTO): Promise<string> {
       return 'any_token'
     }
   }

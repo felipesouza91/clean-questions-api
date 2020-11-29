@@ -1,4 +1,4 @@
-import { IAddSurvey, IAddSurveyModel, IAddSurveyRepository } from './DbAddSurvey.protocols'
+import { IAddSurvey, IAddSurveyDTO, IAddSurveyRepository } from './DbAddSurvey.protocols'
 import { DbAddSurvey } from './DbAddSurvey'
 import MockDate from 'mockdate'
 interface ISutType {
@@ -8,14 +8,14 @@ interface ISutType {
 
 const makeFakeAddSurveyRepositoryStub = (): IAddSurveyRepository => {
   class AddSurveyRepositoryStub implements IAddSurveyRepository {
-    async add (data: IAddSurveyModel): Promise<void> {
+    async add (data: IAddSurveyDTO): Promise<void> {
       return await Promise.resolve()
     }
   }
   return new AddSurveyRepositoryStub()
 }
 
-const makeFakeAsnwaers = (): IAddSurveyModel => ({
+const makeFakeAsnwaers = (): IAddSurveyDTO => ({
   question: 'any_question',
   answers: [
     {

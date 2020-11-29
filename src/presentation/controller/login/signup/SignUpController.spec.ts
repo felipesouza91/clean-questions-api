@@ -2,12 +2,12 @@ import { SignUpController } from './SignUpController'
 import { EmailInUseError, MissingParamError, ServerError } from '@src/presentation/erros'
 import {
   IAddAccount,
-  IAddAccountModel,
+  IAddAccountDTO,
   IAccountModel,
   IHttpRequest,
   IValidation,
   IAuthentication,
-  IAuthenticationModel
+  IAuthenticationDTO
 } from './SignUpController.protocols'
 import { badRequest, serverError, forbidden, created } from '@src/presentation/helpers/http/HttpHelper'
 
@@ -36,7 +36,7 @@ const makeFakeAccount = (): IAccountModel => ({
 
 const makeAuthentication = (): IAuthentication => {
   class AuthenticationSub implements IAuthentication {
-    async auth (authenticationData: IAuthenticationModel): Promise<string> {
+    async auth (authenticationData: IAuthenticationDTO): Promise<string> {
       return 'any_token'
     }
   }
@@ -45,7 +45,7 @@ const makeAuthentication = (): IAuthentication => {
 
 const makeAddAccount = (): IAddAccount => {
   class AddAccountStub implements IAddAccount {
-    async add (account: IAddAccountModel): Promise<IAccountModel> {
+    async add (account: IAddAccountDTO): Promise<IAccountModel> {
       const fakeAccount = makeFakeAccount()
       return await new Promise((resolve) => resolve(fakeAccount))
     }

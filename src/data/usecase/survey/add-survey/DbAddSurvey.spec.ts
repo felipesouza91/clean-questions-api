@@ -1,19 +1,11 @@
-import { IAddSurvey, IAddSurveyDTO, IAddSurveyRepository } from './DbAddSurvey.protocols'
+import { IAddSurvey, IAddSurveyRepository } from './DbAddSurvey.protocols'
 import { DbAddSurvey } from './DbAddSurvey'
 import { mockFakeSurveyDTO } from '@src/domain/test'
 import MockDate from 'mockdate'
+import { mockFakeAddSurveyRepositoryStub } from '@src/data/test/mock-survey'
 interface ISutType {
   sut: IAddSurvey
   addSurveyRepositoryStub: IAddSurveyRepository
-}
-
-const mockFakeAddSurveyRepositoryStub = (): IAddSurveyRepository => {
-  class AddSurveyRepositoryStub implements IAddSurveyRepository {
-    async add (data: IAddSurveyDTO): Promise<void> {
-      return await Promise.resolve()
-    }
-  }
-  return new AddSurveyRepositoryStub()
 }
 
 const mockSut = (): ISutType => {

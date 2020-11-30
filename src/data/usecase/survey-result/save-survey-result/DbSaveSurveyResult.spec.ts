@@ -1,20 +1,12 @@
-import { ISaveSurveyResultRepository, IAddSurveyResultDTO, ISurveyResultModel } from './DbSaveSurveyResult.protocols'
+import { ISaveSurveyResultRepository } from './DbSaveSurveyResult.protocols'
 import { DbSaveSurveyResult } from './DbSaveSurveyResult'
 import { mockFakeSurveyResultModel, mockFakeAddSurveyResultDTO } from '@src/domain/test'
 import MockDate from 'mockdate'
+import { mockSaveSurveyResultRepositoryStub } from '@src/data/test/mock-survey'
 
 interface ISutType {
   sut: DbSaveSurveyResult
   saveSurveyResultRepositoryStub: ISaveSurveyResultRepository
-}
-
-const mockSaveSurveyResultRepositoryStub = (): ISaveSurveyResultRepository => {
-  class SaveSurveyRepositoryStub implements ISaveSurveyResultRepository {
-    async save (data: IAddSurveyResultDTO): Promise<ISurveyResultModel> {
-      return mockFakeSurveyResultModel()
-    }
-  }
-  return new SaveSurveyRepositoryStub()
 }
 
 const mockSut = (): ISutType => {

@@ -1,20 +1,12 @@
 
 import { MissingParamError } from '@src/presentation/erros'
 import { IValidation } from '@src/presentation/protocols'
+import { mockValidationStub } from '../test'
 import { ValidationComposite } from './Validation-composite'
 
 interface ISutTypes {
   sut: ValidationComposite
   validationStubs: IValidation[]
-}
-
-const mockValidationStub = (): IValidation => {
-  class ValidationStub implements IValidation {
-    validate (input: any): Error {
-      return null
-    }
-  }
-  return new ValidationStub()
 }
 
 const mockSut = (): ISutTypes => {

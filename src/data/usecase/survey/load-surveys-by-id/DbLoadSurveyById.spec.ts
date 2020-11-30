@@ -1,27 +1,13 @@
 
 import { DbLoadSurveyById } from './DbLoadSurveyById'
-import { ISurveyModel, ILoadSurveyByIdRepository } from './DbLoadSurveyById.protocols'
+import { ILoadSurveyByIdRepository } from './DbLoadSurveyById.protocols'
 import MockDate from 'mockdate'
+import { mockLoadSurveyRepositoryStub } from '@src/data/test/mock-survey'
+import { mockFakeSurvey } from '@src/domain/test'
 
 interface ISutTypes {
   sut: DbLoadSurveyById
   loadSurveyRepositoryStub: ILoadSurveyByIdRepository
-}
-
-const mockFakeSurvey = (): ISurveyModel => ({
-  id: 'any_id',
-  question: 'Question',
-  answers: [{ answer: 'true' }],
-  date: new Date()
-})
-
-const mockLoadSurveyRepositoryStub = (): ILoadSurveyByIdRepository => {
-  class LoadSurveysRepositoryStub implements ILoadSurveyByIdRepository {
-    async loadById (id: string): Promise<ISurveyModel> {
-      return mockFakeSurvey()
-    }
-  }
-  return new LoadSurveysRepositoryStub()
 }
 
 const mockSut = (): ISutTypes => {

@@ -3,11 +3,11 @@ import {
   IController,
   IHttpRequest,
   IValidation,
-  IAuthentication,
-  IAuthenticationDTO
+  IAuthentication
 } from './LoginController.protocols'
 import { MissingParamError } from '@src/presentation/erros'
 import { badRequest, serverError, unauthorized, ok } from '@src/presentation/helpers/http/HttpHelper'
+import { mockAuthentication } from '@src/presentation/test'
 
 interface IISutTypes {
   sut: IController
@@ -23,14 +23,6 @@ const mockValidation = (): IValidation => {
     }
   }
   return new ValidationStub()
-}
-const mockAuthentication = (): IAuthentication => {
-  class AuthenticationSub implements IAuthentication {
-    async auth (authenticationData: IAuthenticationDTO): Promise<string> {
-      return 'any_token'
-    }
-  }
-  return new AuthenticationSub()
 }
 
 const mockFakeRequest = (): IHttpRequest => {

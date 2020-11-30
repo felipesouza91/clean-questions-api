@@ -1,8 +1,6 @@
 import { DbAuthentication } from './DbAuthentication'
-import { mockFakeAccount } from '@src/domain/test'
 import {
   IAuthentication,
-  IAccountModel,
   IAuthenticationDTO,
   IHashCompare,
   IEncrypter,
@@ -10,6 +8,12 @@ import {
   IUpdateAccessTokenRepository
 } from './DbAuthentication.protocols'
 
+import {
+  mockCompareHash,
+  mockEncrypterStub,
+  mockLoadAccountByEmailRepositotyStub,
+  mockUpdateAccessTokenRepositoryStub
+} from '@src/data/test'
 interface IISutTypes {
   sut: IAuthentication
   loadAccountByEmailRepositoryStub: ILoadAccountByEmailRepository
@@ -22,44 +26,6 @@ const mockFakeAuthentication = (): IAuthenticationDTO => ({
   email: 'any_email@mail.com',
   password: 'any_password'
 })
-
-const mockLoadAccountByEmailRepositotyStub = (): ILoadAccountByEmailRepository => {
-  class LoadAccountByEmailRepositoryStub
-  implements ILoadAccountByEmailRepository {
-    async loadByEmail (email: string): Promise<IAccountModel> {
-      const account = mockFakeAccount()
-      return await new Promise((resolve) => resolve(account))
-    }
-  }
-  return new LoadAccountByEmailRepositoryStub()
-}
-
-const mockUpdateAccessTokenRepositoryStub = (): IUpdateAccessTokenRepository => {
-  class UpdateAccessTokenRepositoryStub implements IUpdateAccessTokenRepository {
-    async updateAccessToken (id: string, accessToken: string): Promise<void> {
-
-    }
-  }
-  return new UpdateAccessTokenRepositoryStub()
-}
-
-const mockCompareHash = (): IHashCompare => {
-  class HashComapeStub implements IHashCompare {
-    async compare (value: string, hashed: string): Promise<boolean> {
-      return true
-    }
-  }
-  return new HashComapeStub()
-}
-
-const mockEncrypterStub = (): IEncrypter => {
-  class EncrypterStub implements IEncrypter {
-    async encrypt (value: string): Promise<string> {
-      return 'any_token'
-    }
-  }
-  return new EncrypterStub()
-}
 
 const mockSut = (): IISutTypes => {
   const loadAccountByEmailRepositoryStub = mockLoadAccountByEmailRepositotyStub()

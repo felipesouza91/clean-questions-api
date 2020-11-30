@@ -6,10 +6,10 @@ import {
   IAccountModel,
   IHttpRequest,
   IValidation,
-  IAuthentication,
-  IAuthenticationDTO
+  IAuthentication
 } from './SignUpController.protocols'
 import { badRequest, serverError, forbidden, created } from '@src/presentation/helpers/http/HttpHelper'
+import { mockAuthentication } from '@src/presentation/test'
 
 interface ISutTypes {
   sut: SignUpController
@@ -33,15 +33,6 @@ const mockFakeAccount = (): IAccountModel => ({
   email: 'any_email@email.com',
   password: 'any_password'
 })
-
-const mockAuthentication = (): IAuthentication => {
-  class AuthenticationSub implements IAuthentication {
-    async auth (authenticationData: IAuthenticationDTO): Promise<string> {
-      return 'any_token'
-    }
-  }
-  return new AuthenticationSub()
-}
 
 const mockAddAccount = (): IAddAccount => {
   class AddAccountStub implements IAddAccount {

@@ -1,20 +1,12 @@
 import { InvalidParamError } from '@src/presentation/erros'
 import { IEmailValidator } from '../protocols/IEmailValidator'
+import { mockEmailValidator } from '../test'
 import { EmailValidation } from './EmailValidation'
 
 interface ISutTypes {
   sut: EmailValidation
   emailValidatorSub: IEmailValidator
 
-}
-
-const mockEmailValidator = (): IEmailValidator => {
-  class EmailValidatorStub implements IEmailValidator {
-    isValid (email): boolean {
-      return true
-    }
-  }
-  return new EmailValidatorStub()
 }
 
 const mockSut = (): ISutTypes => {

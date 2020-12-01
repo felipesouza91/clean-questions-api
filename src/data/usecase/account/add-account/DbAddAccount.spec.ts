@@ -3,11 +3,10 @@ import { DbAddAccount } from './DbAddAccount'
 import { mockFakeAccount, mockFakeAccountDTO } from '@src/domain/test'
 import {
   IHasher,
-  IAccountModel,
   IAddAccountRepository,
   ILoadAccountByEmailRepository
 } from './DbAddAccount.protocols'
-import { mockHasherStub, mockAddAccountRepository } from '@src/data/test'
+import { mockHasherStub, mockAddAccountRepository, mockLoadAccountByEmailRepositotyStub } from '@src/data/test'
 
 interface IISutTypes {
   sut: DbAddAccount
@@ -16,20 +15,11 @@ interface IISutTypes {
   loadAccountByEmailRepositoryStub: ILoadAccountByEmailRepository
 }
 
-const mockLoadAccountByEmailRepositoryStub = (): ILoadAccountByEmailRepository => {
-  class LoadAccountByEmailRepositoryStub
-  implements ILoadAccountByEmailRepository {
-    async loadByEmail (email: string): Promise<IAccountModel> {
-      return await new Promise((resolve) => resolve(null))
-    }
-  }
-  return new LoadAccountByEmailRepositoryStub()
-}
-
 const mockSut = (): IISutTypes => {
   const addAccountRepositoryStub = mockAddAccountRepository()
   const hasherStub = mockHasherStub()
-  const loadAccountByEmailRepositoryStub = mockLoadAccountByEmailRepositoryStub()
+  const loadAccountByEmailRepositoryStub = mockLoadAccountByEmailRepositotyStub()
+  jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockResolvedValue(null)
   const sut = new DbAddAccount({
     hasher: hasherStub,
     addAccountRepository: addAccountRepositoryStub,

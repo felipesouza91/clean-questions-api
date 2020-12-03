@@ -1,4 +1,5 @@
 export const loginSchema = {
+  title: 'Login Input',
   type: 'object',
   properties: {
     email: {

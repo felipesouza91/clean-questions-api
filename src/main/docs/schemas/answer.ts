@@ -8,5 +8,6 @@ export const answerSchema = {
     answer: {
       type: 'string'
     }
-  }
+  },
+  required: ['answer']
 }

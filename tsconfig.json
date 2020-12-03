@@ -11,6 +11,6 @@
       "@src/*": ["*"]
     }
   },
-  "include": ["./src", "src/main/docs/schemas/.ts"],
+  "include": ["./src", "src/main/docs/schemas/signup.ts"],
   "exclude": []
 }

@@ -3,17 +3,17 @@ export const surveyResultSchema = {
   title: 'Survey Input',
   type: 'object',
   properties: {
-    id: {
-      type: 'string'
-    },
     surveyId: {
       type: 'string'
     },
     accountId: {
       type: 'string'
     },
-    answer: {
-      type: 'string'
+    answers: {
+      type: 'array',
+      items: {
+        $ref: '#/schemas/answerSurveyResult'
+      }
     },
     date: {
       type: 'string',

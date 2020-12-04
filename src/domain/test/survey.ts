@@ -25,9 +25,14 @@ export const mockFakeSurvey = (): ISurveyModel => ({
 })
 
 export const mockFakeSurveyResultModel = (): ISurveyResultModel => ({
-  id: 'any_id',
-  accountId: 'any_account_id',
-  surveyId: 'any_survey_id',
-  answer: 'any_anser',
+  surveyId: 'survey_id',
+  question: 'any_question',
+  answers: [
+    {
+      answer: 'any_answer',
+      count: 10,
+      percent: 10
+    }
+  ],
   date: new Date()
 })

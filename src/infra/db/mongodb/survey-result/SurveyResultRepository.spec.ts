@@ -1,7 +1,8 @@
 import { IAccountModel } from '@src/domain/models/IAccountModel'
 import { ISurveyModel } from '@src/domain/models/ISurveyModel'
 import { ISurveyResultModel } from '@src/domain/models/ISurveyResultModel'
-import { Collection } from 'mongodb'
+/* import { ISurveyResultModel } from '@src/domain/models/ISurveyResultModel' */
+import { Collection, ObjectID } from 'mongodb'
 import { MongoHelper } from '../helpers/MongoHelper'
 import { SurveyResultMongoRepository } from './SurveyResultRepository'
 
@@ -41,8 +42,8 @@ const mockFakeSurvey = async (): Promise<ISurveyModel> => {
 
 const mockFakeSurveyResult = async (accountId: string, surveyId: string, answer: string): Promise<ISurveyResultModel> => {
   const surveyResult = await surveyResultCollection.insertOne({
-    accountId,
-    surveyId,
+    accountId: new ObjectID(accountId),
+    surveyId: new ObjectID(surveyId),
     answer,
     date: new Date()
   })
@@ -71,7 +72,7 @@ describe('Survey Mongo Repository', () => {
     test('Should add a survey result if its new', async () => {
       const account = await mockFakeAccount()
       const survey = await mockFakeSurvey()
-
+      await mockFakeSurveyResult(account.id, survey.id, 'any_answer')
       const sut = mockSut()
       const surveyResult = await sut.save({
         accountId: account.id,
@@ -80,13 +81,14 @@ describe('Survey Mongo Repository', () => {
         date: new Date()
       })
       expect(surveyResult).toBeTruthy()
-      expect(surveyResult.id).toBeTruthy()
-      expect(surveyResult.answer).toBe(survey.answers[0].answer)
+      expect(surveyResult.surveyId).toEqual(survey.id)
+      expect(surveyResult.answers[0].count).toBe(1)
+      expect(surveyResult.answers[0].percent).toBe(100)
     })
     test('Should update survey result if its not new', async () => {
       const account = await mockFakeAccount()
       const survey = await mockFakeSurvey()
-      const fakseSurverResult = await mockFakeSurveyResult(account.id, survey.id, survey.answers[0].answer)
+      await mockFakeSurveyResult(account.id, survey.id, 'any_answer')
       const sut = mockSut()
       const surveyResult = await sut.save({
         accountId: account.id,
@@ -95,8 +97,9 @@ describe('Survey Mongo Repository', () => {
         date: new Date()
       })
       expect(surveyResult).toBeTruthy()
-      expect(surveyResult.id).toEqual(fakseSurverResult.id)
-      expect(surveyResult.answer).toBe(survey.answers[1].answer)
+      expect(surveyResult.surveyId).toEqual(survey.id)
+      expect(surveyResult.answers[0].count).toBe(1)
+      expect(surveyResult.answers[0].percent).toBe(100)
     })
   })
 })

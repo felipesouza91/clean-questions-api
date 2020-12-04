@@ -27,7 +27,6 @@ describe('Survey Mongo Repository', () => {
     test('Should add a survey on success', async () => {
       const sut = mockSut()
       await sut.add(mockFakeSurveyDTO())
-
       const survey = await surveyCollection.findOne({ question: mockFakeSurveyDTO().question })
       expect(survey).toBeTruthy()
     })

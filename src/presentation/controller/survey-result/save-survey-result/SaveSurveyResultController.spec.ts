@@ -12,6 +12,7 @@ import {
   ok
 } from './SaveSurveyResultController.protocols'
 import MockDate from 'mockdate'
+import { mockFakeAddSurveyResultDTO, mockFakeSurveyResultModel } from '@src/domain/test'
 
 interface ISutType {
   sut: SaveSurveyResultController
@@ -22,25 +23,10 @@ interface ISutType {
 const mockFakeSurveyModel = (): ISurveyModel => ({
   id: 'any_survey_id',
   answers: [
-    { answer: 'any_answer' },
+    { answer: 'any_anser' },
     { answer: 'another_answer' }
   ],
   question: 'any_question',
-  date: new Date()
-})
-
-const mockFakeAddSaveSurveyResult = (): IAddSurveyResultDTO => ({
-  accountId: 'any_account_id',
-  answer: 'any_answer',
-  surveyId: 'any_survey_id',
-  date: new Date()
-})
-
-const mockFakeSaveSurveyResult = (): ISurveyResultModel => ({
-  id: 'any_id',
-  accountId: 'any_account_id',
-  answer: 'any_answer',
-  surveyId: 'any_survey_id',
   date: new Date()
 })
 
@@ -49,7 +35,7 @@ const mockFakeHttpRequest = (): IHttpRequest => ({
     survey_id: 'any_survey_id'
   },
   body: {
-    answer: 'any_answer'
+    answer: 'any_anser'
   },
   accountId: 'any_account_id'
 })
@@ -66,7 +52,7 @@ const mockLoadSurveyByIdStub = (): ILoadSurveyById => {
 const mockSaveSurveyResultStub = (): ISaveSurveyResult => {
   class SaveSurveyResultStub implements ISaveSurveyResult {
     async save (data: IAddSurveyResultDTO): Promise<ISurveyResultModel> {
-      return mockFakeSaveSurveyResult()
+      return mockFakeSurveyResultModel()
     }
   }
   return new SaveSurveyResultStub()
@@ -106,7 +92,7 @@ describe('SaveSurveyResultController', () => {
     const { sut, saveSurveyResultStub } = mockSut()
     const saveSurveyResultSpty = jest.spyOn(saveSurveyResultStub, 'save')
     await sut.handle(mockFakeHttpRequest())
-    expect(saveSurveyResultSpty).toHaveBeenCalledWith(mockFakeAddSaveSurveyResult())
+    expect(saveSurveyResultSpty).toHaveBeenCalledWith(mockFakeAddSurveyResultDTO())
   })
 
   test('should return 403 if LoadSurveyById return null', async () => {
@@ -139,6 +125,6 @@ describe('SaveSurveyResultController', () => {
   test('should return 200 on success', async () => {
     const { sut } = mockSut()
     const httpResponse = await sut.handle(mockFakeHttpRequest())
-    expect(httpResponse).toEqual(ok(mockFakeSaveSurveyResult()))
+    expect(httpResponse).toEqual(ok(mockFakeSurveyResultModel()))
   })
 })

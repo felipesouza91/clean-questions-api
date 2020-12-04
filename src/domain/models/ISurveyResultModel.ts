@@ -1,8 +1,13 @@
-
 export interface ISurveyResultModel {
-  id: string
   surveyId: string
-  accountId: string
-  answer: string
+  question: string
+  answers: IAnswerResultModel[]
   date: Date
+}
+
+interface IAnswerResultModel {
+  image?: string
+  answer: string
+  count: number
+  percent: number
 }

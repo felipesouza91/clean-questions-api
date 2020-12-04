@@ -1,6 +1,6 @@
 
 export const surveyResultSchema = {
-  title: 'Survey Input',
+  title: 'Survey Result',
   type: 'object',
   properties: {
     surveyId: {
@@ -11,7 +11,7 @@ export const surveyResultSchema = {
     },
     answers: {
       type: 'array',
-      items: {
+      item: {
         $ref: '#/schemas/answerSurveyResult'
       }
     },

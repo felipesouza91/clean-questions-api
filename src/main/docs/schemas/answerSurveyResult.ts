@@ -10,10 +10,10 @@ export const answerSurveyResultSchema = {
       type: 'string'
     },
     count: {
-      type: 'string'
+      type: 'integer'
     },
     percent: {
-      type: 'string'
+      type: 'integer'
     }
   }
 }

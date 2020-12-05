@@ -16,8 +16,8 @@ export class DbLoadSurveyResult implements ILoadSurveyResult {
     Object.assign(this, props)
   }
 
-  async load (surveyId: string): Promise<ISurveyResultModel> {
-    const surveyResult = await this.loadSurveyResultRepository.loadBySurveyId(surveyId)
+  async load (surveyId: string, accountId: string): Promise<ISurveyResultModel> {
+    const surveyResult = await this.loadSurveyResultRepository.loadBySurveyId(surveyId,accountId)
     return surveyResult
   }
 }

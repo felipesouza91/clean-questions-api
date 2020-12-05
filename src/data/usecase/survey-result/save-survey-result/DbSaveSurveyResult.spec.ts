@@ -1,20 +1,27 @@
-import { ISaveSurveyResultRepository } from './DbSaveSurveyResult.protocols'
+import { ISaveSurveyResultRepository, ILoadSurveyResultRepository } from './DbSaveSurveyResult.protocols'
 import { DbSaveSurveyResult } from './DbSaveSurveyResult'
 import { mockFakeSurveyResultModel, mockFakeAddSurveyResultDTO } from '@src/domain/test'
 import MockDate from 'mockdate'
-import { mockSaveSurveyResultRepositoryStub } from '@src/data/test/mock-survey'
+import { mockLoadSurveyResultRepositoryStub, mockSaveSurveyResultRepositoryStub } from '@src/data/test/mock-survey'
 
 interface ISutType {
   sut: DbSaveSurveyResult
   saveSurveyResultRepositoryStub: ISaveSurveyResultRepository
+  loadSurveyResultRepositoryStub: ILoadSurveyResultRepository
 }
 
 const mockSut = (): ISutType => {
   const saveSurveyResultRepositoryStub = mockSaveSurveyResultRepositoryStub()
-  const sut = new DbSaveSurveyResult({ saveSurveyResultRepository: saveSurveyResultRepositoryStub })
+  const loadSurveyResultRepositoryStub = mockLoadSurveyResultRepositoryStub()
+  const sut = new DbSaveSurveyResult({
+    saveSurveyResultRepository: saveSurveyResultRepositoryStub ,
+    loadSurveyResultRepository: loadSurveyResultRepositoryStub
+
+  })
   return {
     sut,
-    saveSurveyResultRepositoryStub
+    saveSurveyResultRepositoryStub,
+    loadSurveyResultRepositoryStub
   }
 }
 
@@ -25,11 +32,13 @@ describe('DbSaveSurveyResult useCase', () => {
   afterAll(() => {
     MockDate.reset()
   })
-  test('should call SaveSurveyRepository with correct values', async () => {
-    const { sut, saveSurveyResultRepositoryStub } = mockSut()
-    const repositorySpy = jest.spyOn(saveSurveyResultRepositoryStub, 'save')
+  test('should call dependencies with correct values', async () => {
+    const { sut, saveSurveyResultRepositoryStub, loadSurveyResultRepositoryStub } = mockSut()
+    const saveRepositorySpy = jest.spyOn(saveSurveyResultRepositoryStub, 'save')
+    const loadRepositorySpy = jest.spyOn(loadSurveyResultRepositoryStub, 'loadBySurveyId')
     await sut.save(mockFakeAddSurveyResultDTO())
-    expect(repositorySpy).toHaveBeenCalledWith(mockFakeAddSurveyResultDTO())
+    expect(saveRepositorySpy).toHaveBeenCalledWith(mockFakeAddSurveyResultDTO())
+    expect(loadRepositorySpy).toHaveBeenCalledWith(mockFakeAddSurveyResultDTO().surveyId, mockFakeAddSurveyResultDTO().accountId)
   })
 
   test('should return surveyResult on success', async () => {

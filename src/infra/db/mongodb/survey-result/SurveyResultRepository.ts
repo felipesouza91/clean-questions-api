@@ -6,9 +6,10 @@ import { ObjectID } from 'mongodb'
 import { MongoHelper } from '../helpers/MongoHelper'
 import { QueryBuilder } from '../helpers/QueryBuilder'
 import round from 'mongo-round'
+import { ILoadSurveyResultRepository } from '@src/data/protocols/db/survey-result/ILoadSurveyResultRepository'
 
-export class SurveyResultMongoRepository implements ISaveSurveyResultRepository {
-  async save ({ accountId, surveyId, answer, date }: IAddSurveyResultDTO): Promise<ISurveyResultModel> {
+export class SurveyResultMongoRepository implements ISaveSurveyResultRepository, ILoadSurveyResultRepository {
+  async save ({ accountId, surveyId, answer, date }: IAddSurveyResultDTO): Promise<void> {
     const surveyResultCollection = await MongoHelper.getCollection('surveyResults')
     await surveyResultCollection.findOneAndUpdate({
       accountId: new ObjectID(accountId),
@@ -19,8 +20,6 @@ export class SurveyResultMongoRepository implements ISaveSurveyResultRepository 
       upsert: true,
       returnOriginal: false
     })
-    const surveyResult = await this.loadBySurveyId(surveyId, accountId)
-    return surveyResult
   }
 
   async loadBySurveyId (surveyId: string, accountId: string): Promise<ISurveyResultModel> {

@@ -3,7 +3,7 @@ import { ISaveSurveyResultRepository } from '../protocols/db/survey-result/ISave
 import { IAddSurveyRepository } from '../protocols/db/survey/IAddSurveyRepository'
 import { ILoadSurveyByIdRepository } from '../protocols/db/survey/ILoadSurveyByIdRepository'
 import { ILoadSurveysRepository } from '../protocols/db/survey/ILoadSurveysRepository'
-import { IAddSurveyResultDTO, ISurveyResultModel } from '../usecase/survey-result/save-survey-result/DbSaveSurveyResult.protocols'
+import { IAddSurveyResultDTO, ILoadSurveyResultRepository, ISurveyResultModel } from '../usecase/survey-result/save-survey-result/DbSaveSurveyResult.protocols'
 import { IAddSurveyDTO } from '../usecase/survey/add-survey/DbAddSurvey.protocols'
 import { ISurveyModel } from '../usecase/survey/load-surveys/DbLoadSurveys.protocols'
 
@@ -36,9 +36,18 @@ export const mockLoadSurveyRepositoryStub = (): ILoadSurveyByIdRepository => {
 
 export const mockSaveSurveyResultRepositoryStub = (): ISaveSurveyResultRepository => {
   class SaveSurveyRepositoryStub implements ISaveSurveyResultRepository {
-    async save (data: IAddSurveyResultDTO): Promise<ISurveyResultModel> {
-      return mockFakeSurveyResultModel()
+    async save (data: IAddSurveyResultDTO): Promise<void> {
+
     }
   }
   return new SaveSurveyRepositoryStub()
+}
+
+export const mockLoadSurveyResultRepositoryStub = (): ILoadSurveyResultRepository => {
+  class LoadSurveyResultRepositoryStub implements ILoadSurveyResultRepository {
+    async loadBySurveyId (surveyId: string, accountId: string): Promise<ISurveyResultModel> {
+      return mockFakeSurveyResultModel()
+    }
+  }
+  return new LoadSurveyResultRepositoryStub()
 }

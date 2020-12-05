@@ -53,4 +53,10 @@ describe('DbSaveSurveyResult useCase', () => {
     const reponse = sut.save(mockFakeAddSurveyResultDTO())
     expect(reponse).rejects.toThrow()
   })
+  test('should throws if SaveSurveyRepository throws ', async () => {
+    const { sut, loadSurveyResultRepositoryStub } = mockSut()
+    jest.spyOn(loadSurveyResultRepositoryStub, 'loadBySurveyId').mockRejectedValueOnce(new Error())
+    const reponse = sut.save(mockFakeAddSurveyResultDTO())
+    expect(reponse).rejects.toThrow()
+  })
 })

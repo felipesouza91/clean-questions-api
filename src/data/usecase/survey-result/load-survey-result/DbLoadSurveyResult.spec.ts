@@ -5,6 +5,7 @@ import {
 } from './DbLoadSurveyResult.protocols'
 import { DbLoadSurveyResult } from './DbLoadSurveyResult'
 import { ISurveyResultModel } from '../save-survey-result/DbSaveSurveyResult.protocols'
+import MockDate from 'mockdate'
 interface ISutTypes {
   sut: ILoadSurveyResult
   loadSurveyResultRepositoryStub: ILoadSurveyResultRepository
@@ -31,6 +32,12 @@ const mockSut = (): ISutTypes => {
 }
 
 describe('DbLoadSurveyResult UseCase', () => {
+  beforeAll(() => {
+    MockDate.set(new Date())
+  })
+  afterAll(() => {
+    MockDate.reset()
+  })
   test('shoud call LoadSurveyResultRepository with correct value ', async () => {
     const { sut , loadSurveyResultRepositoryStub } = mockSut()
     const repositorySpy = jest.spyOn(loadSurveyResultRepositoryStub, 'loadBySurveyId')
@@ -42,5 +49,12 @@ describe('DbLoadSurveyResult UseCase', () => {
     const { sut } = mockSut()
     const response = await sut.load('any_survey_id')
     expect(response).toEqual(mockFakeSurveyResultModel())
+  })
+
+  test('should throws if LoadSurveyResultRepository throws ', async () => {
+    const { sut, loadSurveyResultRepositoryStub } = mockSut()
+    jest.spyOn(loadSurveyResultRepositoryStub, 'loadBySurveyId').mockRejectedValueOnce(new Error())
+    const reponse = sut.load('any_survey_id')
+    expect(reponse).rejects.toThrow()
   })
 })

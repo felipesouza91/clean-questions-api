@@ -17,7 +17,7 @@ export class DbLoadSurveyResult implements ILoadSurveyResult {
   }
 
   async load (surveyId: string): Promise<ISurveyResultModel> {
-    await this.loadSurveyResultRepository.loadBySurveyId(surveyId)
-    return null
+    const surveyResult = await this.loadSurveyResultRepository.loadBySurveyId(surveyId)
+    return surveyResult
   }
 }

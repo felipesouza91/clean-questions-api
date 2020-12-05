@@ -19,7 +19,7 @@ const mockLoadSurveyResultRepositoryStub = (): ILoadSurveyResultRepository => {
   return new LoadSurveyResultRepositoryStub()
 }
 
-const makeSut = (): ISutTypes => {
+const mockSut = (): ISutTypes => {
   const loadSurveyResultRepositoryStub = mockLoadSurveyResultRepositoryStub()
   const sut = new DbLoadSurveyResult({
     loadSurveyResultRepository: loadSurveyResultRepositoryStub
@@ -32,9 +32,15 @@ const makeSut = (): ISutTypes => {
 
 describe('DbLoadSurveyResult UseCase', () => {
   test('shoud call LoadSurveyResultRepository with correct value ', async () => {
-    const { sut , loadSurveyResultRepositoryStub } = makeSut()
+    const { sut , loadSurveyResultRepositoryStub } = mockSut()
     const repositorySpy = jest.spyOn(loadSurveyResultRepositoryStub, 'loadBySurveyId')
     await sut.load('any_survey_id')
     expect(repositorySpy).toHaveBeenCalledWith('any_survey_id')
+  })
+
+  test('should returns a surveyResult on success', async () => {
+    const { sut } = mockSut()
+    const response = await sut.load('any_survey_id')
+    expect(response).toEqual(mockFakeSurveyResultModel())
   })
 })

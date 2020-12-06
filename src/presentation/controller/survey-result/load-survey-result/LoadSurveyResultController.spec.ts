@@ -1,6 +1,13 @@
 import { mockFakeSurvey } from '@src/domain/test'
 
-import { ILoadSurveyById,IHttpRequest, forbidden, ISurveyModel, InvalidParamError } from './LoadSurveyResultController.protocols'
+import {
+  ILoadSurveyById,
+  IHttpRequest,
+  forbidden,
+  serverError,
+  ISurveyModel,
+  InvalidParamError
+} from './LoadSurveyResultController.protocols'
 import { LoadSurveyResultController } from './LoadSurveyResultController'
 
 interface ISutType {
@@ -45,5 +52,11 @@ describe('LoadSurveyResultController', () => {
     jest.spyOn(loadSurveyByIdStub, 'loadById').mockResolvedValueOnce(null)
     const response = await sut.handle(mockFakeHttpRequest())
     expect(response).toEqual(forbidden(new InvalidParamError('surveyId')))
+  })
+  test('should return 500 if loadSurveyById throws', async () => {
+    const { sut, loadSurveyByIdStub } = makeSut()
+    jest.spyOn(loadSurveyByIdStub, 'loadById').mockRejectedValueOnce(new Error())
+    const response = await sut.handle(mockFakeHttpRequest())
+    expect(response).toEqual(serverError(new Error()))
   })
 })

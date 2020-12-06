@@ -58,6 +58,7 @@ describe('Save Survey Result Routes', () => {
     await accountCollection.deleteMany({})
     await saveSurveyResultCollection.deleteMany({})
   })
+
   describe('POST /surveys/:survey_id/results', () => {
     test('Should return 403 on save survey result without accessToken', async () => {
       await request(app)

@@ -1,4 +1,5 @@
 
+import { ILoadSurveyByIdRepository } from '../../survey/load-surveys-by-id/DbLoadSurveyById.protocols'
 import {
   ILoadSurveyResult,
   ISurveyResultModel,
@@ -7,10 +8,12 @@ import {
 
 interface IDbLoadSurveyResultProps {
   loadSurveyResultRepository: ILoadSurveyResultRepository
+  loadSurveyByIdRepository: ILoadSurveyByIdRepository
 }
 
 export class DbLoadSurveyResult implements ILoadSurveyResult {
   private readonly loadSurveyResultRepository: ILoadSurveyResultRepository
+  private readonly loadSurveyByIdRepository: ILoadSurveyByIdRepository
 
   constructor (props: IDbLoadSurveyResultProps) {
     Object.assign(this, props)
@@ -18,6 +21,9 @@ export class DbLoadSurveyResult implements ILoadSurveyResult {
 
   async load (surveyId: string, accountId: string): Promise<ISurveyResultModel> {
     const surveyResult = await this.loadSurveyResultRepository.loadBySurveyId(surveyId,accountId)
+    if (!surveyResult) {
+      await this.loadSurveyByIdRepository.loadById(surveyId)
+    }
     return surveyResult
   }
 }

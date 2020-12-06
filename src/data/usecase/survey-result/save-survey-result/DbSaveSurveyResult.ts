@@ -21,7 +21,7 @@ export class DbSaveSurveyResult implements ISaveSurveyResult {
 
   async save (data: IAddSurveyResultDTO): Promise<ISurveyResultModel> {
     await this.saveSurveyResultRepository.save(data)
-    const surveyResult = this.loadSurveyResultRepository.loadBySurveyId(data.surveyId, data.accountId)
-    return await surveyResult
+    const surveyResult = await this.loadSurveyResultRepository.loadBySurveyId(data.surveyId, data.accountId)
+    return surveyResult
   }
 }

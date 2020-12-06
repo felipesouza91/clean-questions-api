@@ -1,10 +1,10 @@
 
-import { ILoadSurveyResultRepository } from '../load-survey-result/DbLoadSurveyResult.protocols'
 import {
   ISaveSurveyResult,
   IAddSurveyResultDTO,
   ISurveyResultModel ,
-  ISaveSurveyResultRepository
+  ISaveSurveyResultRepository,
+  ILoadSurveyResultRepository
 } from './DbSaveSurveyResult.protocols'
 
 interface IDbSaveSurveyResultProps {

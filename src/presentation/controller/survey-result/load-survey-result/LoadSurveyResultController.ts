@@ -5,9 +5,10 @@ import {
   IHttpResponse,
   ILoadSurveyById,
   ILoadSurveyResult,
+  InvalidParamError,
   forbidden,
   serverError,
-  InvalidParamError
+  ok
 } from './LoadSurveyResultController.protocols'
 
 interface ILoadSurveyResultControllerProps {
@@ -29,8 +30,8 @@ export class LoadSurveyResultController implements IController {
       if (!survey) {
         return forbidden(new InvalidParamError('surveyId'))
       }
-      await this.loadSurveyResult.load(params.surveyId, accountId)
-      return null
+      const surveyResult = await this.loadSurveyResult.load(params.surveyId, accountId)
+      return ok(surveyResult)
     } catch (error) {
       return serverError(error)
     }

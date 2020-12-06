@@ -2,15 +2,17 @@ import { mockFakeSurvey, mockFakeSurveyResultModel } from '@src/domain/test'
 
 import {
   ILoadSurveyById,
+  ISurveyModel,
+  ILoadSurveyResult,
+  InvalidParamError,
+  ISurveyResultModel,
   IHttpRequest,
   forbidden,
   serverError,
-  ISurveyModel,
-  InvalidParamError,
-  ILoadSurveyResult,
-  ISurveyResultModel
+  ok
 } from './LoadSurveyResultController.protocols'
 import { LoadSurveyResultController } from './LoadSurveyResultController'
+import MockDate from 'mockdate'
 
 interface ISutType {
   sut: LoadSurveyResultController
@@ -56,6 +58,18 @@ const makeSut = (): ISutType => {
 }
 
 describe('LoadSurveyResultController', () => {
+  beforeAll(() => {
+    MockDate.set(new Date())
+  })
+
+  afterAll(() => {
+    MockDate.reset()
+  })
+  test('should return 200 on success', async () => {
+    const { sut } = makeSut()
+    const response = await sut.handle(mockFakeHttpRequest())
+    expect(response).toEqual(ok(mockFakeSurveyResultModel()))
+  })
   test('should call loadSurveyById with correct values', async () => {
     const { sut, loadSurveyByIdStub } = makeSut()
     const loadSurveyByIdSpy = jest.spyOn(loadSurveyByIdStub, 'loadById')

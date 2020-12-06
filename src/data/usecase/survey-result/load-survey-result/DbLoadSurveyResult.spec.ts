@@ -1,25 +1,31 @@
 import {
   ILoadSurveyResult,
   ILoadSurveyResultRepository,
-  mockFakeSurveyResultModel
+  mockFakeSurveyResultModel,
+  ILoadSurveyByIdRepository
 } from './DbLoadSurveyResult.protocols'
 import { DbLoadSurveyResult } from './DbLoadSurveyResult'
 
 import MockDate from 'mockdate'
-import { mockLoadSurveyResultRepositoryStub } from '@src/data/test/mock-survey'
+import { mockLoadSurveyResultRepositoryStub, mockLoadSurveyRepositoryStub } from '@src/data/test/mock-survey'
+
 interface ISutTypes {
   sut: ILoadSurveyResult
   loadSurveyResultRepositoryStub: ILoadSurveyResultRepository
+  loadSurveyByIdRepositoryStub: ILoadSurveyByIdRepository
 }
 
 const mockSut = (): ISutTypes => {
   const loadSurveyResultRepositoryStub = mockLoadSurveyResultRepositoryStub()
+  const loadSurveyByIdRepositoryStub = mockLoadSurveyRepositoryStub()
   const sut = new DbLoadSurveyResult({
-    loadSurveyResultRepository: loadSurveyResultRepositoryStub
+    loadSurveyResultRepository: loadSurveyResultRepositoryStub,
+    loadSurveyByIdRepository: loadSurveyByIdRepositoryStub
   })
   return {
     sut,
-    loadSurveyResultRepositoryStub
+    loadSurveyResultRepositoryStub,
+    loadSurveyByIdRepositoryStub
   }
 }
 
@@ -41,6 +47,14 @@ describe('DbLoadSurveyResult UseCase', () => {
     const { sut } = mockSut()
     const response = await sut.load('any_survey_id', 'any_account_id')
     expect(response).toEqual(mockFakeSurveyResultModel())
+  })
+
+  test('should call LoadSurveyByIdRepository if LoadSurveyResultRepository returns null', async () => {
+    const { sut , loadSurveyResultRepositoryStub, loadSurveyByIdRepositoryStub } = mockSut()
+    jest.spyOn(loadSurveyResultRepositoryStub, 'loadBySurveyId').mockResolvedValueOnce(null)
+    const loadSurveyByIdRepositorySpy = jest.spyOn(loadSurveyByIdRepositoryStub, 'loadById')
+    await sut.load('any_survey_id', 'any_account_id')
+    expect(loadSurveyByIdRepositorySpy).toHaveBeenCalledWith('any_survey_id')
   })
 
   test('should throws if LoadSurveyResultRepository throws ', async () => {

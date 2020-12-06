@@ -26,11 +26,11 @@ export class LoadSurveyResultController implements IController {
   async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
       const { params, accountId } = httpRequest
-      const survey = await this.loadSurveyById.loadById(params.surveyId)
+      const survey = await this.loadSurveyById.loadById(params.survey_id)
       if (!survey) {
         return forbidden(new InvalidParamError('surveyId'))
       }
-      const surveyResult = await this.loadSurveyResult.load(params.surveyId, accountId)
+      const surveyResult = await this.loadSurveyResult.load(params.survey_id, accountId)
       return ok(surveyResult)
     } catch (error) {
       return serverError(error)

@@ -22,7 +22,7 @@ interface ISutType {
 
 const mockFakeHttpRequest = (): IHttpRequest => ({
   params: {
-    surveyId: 'any_survey_id'
+    survey_id: 'any_survey_id'
   },
   accountId: 'any_account_id'
 })

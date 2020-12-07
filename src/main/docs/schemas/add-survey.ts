@@ -2,9 +2,6 @@ export const addSurveySchema = {
   title: 'Survey Input',
   type: 'object',
   properties: {
-    id: {
-      type: 'string'
-    },
     question: {
       type: 'string'
     },

@@ -1,10 +1,8 @@
 export const surveyPath = {
   get: {
-    security: [
-      {
-        apiKeyAuth: []
-      }
-    ],
+    security: [{
+      apiKeyAuth: []
+    }],
     tags: ['Survey'],
     summary: 'API Listas todas as enquetes',
     responses: {

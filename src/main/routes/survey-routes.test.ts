@@ -89,7 +89,6 @@ describe('Survey Routes', () => {
         .set('x-access-token', accessToken)
         .expect(204)
     })
-
     test('should return 200 on load Surveys', async () => {
       await surveyCollection.insertOne({
         question: 'any_question',

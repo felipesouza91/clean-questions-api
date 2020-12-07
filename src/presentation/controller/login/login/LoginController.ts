@@ -30,7 +30,7 @@ export class LoginController implements IController {
       if (!authenticationModel) {
         return unauthorized()
       }
-      return ok({ ...authenticationModel })
+      return ok(authenticationModel)
     } catch (error) {
       return serverError(error)
     }

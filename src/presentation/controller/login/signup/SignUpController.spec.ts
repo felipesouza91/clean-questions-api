@@ -114,7 +114,7 @@ describe('SingUp Controller', () => {
     const { sut } = mockSut()
     const httpRequest = mockFakeRequest()
     const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual(created({ accessToken: 'any_token' }))
+    expect(httpResponse).toEqual(created({ accessToken: 'any_token', name: 'Any Name' }))
   })
 
   test('Shoud return 403 if AddAccount returns null', async () => {

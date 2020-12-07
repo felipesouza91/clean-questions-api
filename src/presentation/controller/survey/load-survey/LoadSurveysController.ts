@@ -12,7 +12,8 @@ export class LoadSurveysController implements IController {
 
   async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
-      const surveys = await this.loadSurveys.load()
+      const { accountId } = httpRequest
+      const surveys = await this.loadSurveys.load(accountId)
       if (surveys.length === 0) {
         return noContent()
       }

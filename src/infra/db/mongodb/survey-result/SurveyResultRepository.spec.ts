@@ -86,6 +86,7 @@ describe('Survey Mongo Repository', () => {
       })
       expect(surveyResult).toBeTruthy()
     })
+
     test('Should update survey result if its not new', async () => {
       const account = await mockFakeAccount()
       const survey = await mockFakeSurvey()
@@ -109,17 +110,48 @@ describe('Survey Mongo Repository', () => {
   describe('loadBySurveyId', () => {
     test('Should load a survey result by surveyid', async () => {
       const account = await mockFakeAccount()
+      const account2 = await mockFakeAccount()
       const survey = await mockFakeSurvey()
       await mockFakeSurveyResult(account.id, survey.id, 'any_answer')
-      await mockFakeSurveyResult(account.id, survey.id, 'other_answer')
+      await mockFakeSurveyResult(account2.id, survey.id, 'other_answer')
       const sut = mockSut()
       const surveyResult = await sut.loadBySurveyId(survey.id, account.id)
       expect(surveyResult).toBeTruthy()
+
       expect(surveyResult.surveyId).toEqual(survey.id)
       expect(surveyResult.answers[0].count).toBe(1)
+      expect(surveyResult.answers[0].answer).toEqual('any_answer')
+      expect(surveyResult.answers[0].isCurrentAccountAnswer).toBe(true)
       expect(surveyResult.answers[0].percent).toBe(50)
+
       expect(surveyResult.answers[1].count).toBe(1)
       expect(surveyResult.answers[1].percent).toBe(50)
+      expect(surveyResult.answers[1].answer).toEqual('other_answer')
+      expect(surveyResult.answers[1].isCurrentAccountAnswer).toBe(false)
+    })
+    test('Should load a survey result by surveyid with account2', async () => {
+      const account = await mockFakeAccount()
+      const account2 = await mockFakeAccount()
+      const account3 = await mockFakeAccount()
+      const survey = await mockFakeSurvey()
+      await mockFakeSurveyResult(account.id, survey.id, 'any_answer')
+      await mockFakeSurveyResult(account2.id, survey.id, 'other_answer')
+      await mockFakeSurveyResult(account3.id, survey.id, 'other_answer')
+      const sut = mockSut()
+      const surveyResult = await sut.loadBySurveyId(survey.id, account2.id)
+      expect(surveyResult).toBeTruthy()
+
+      expect(surveyResult.surveyId).toEqual(survey.id)
+
+      expect(surveyResult.answers[0].count).toBe(2)
+      expect(surveyResult.answers[0].answer).toEqual('other_answer')
+      expect(surveyResult.answers[0].isCurrentAccountAnswer).toBe(true)
+      expect(surveyResult.answers[0].percent).toBe(67)
+
+      expect(surveyResult.answers[1].count).toBe(1)
+      expect(surveyResult.answers[1].percent).toBe(33)
+      expect(surveyResult.answers[1].answer).toEqual('any_answer')
+      expect(surveyResult.answers[1].isCurrentAccountAnswer).toBe(false)
     })
   })
 })

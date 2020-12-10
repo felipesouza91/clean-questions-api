@@ -64,6 +64,7 @@ describe('DbLoadSurveyResult UseCase', () => {
     expect(surveyResult).toBeTruthy()
     expect(surveyResult.answers[0].percent).toBe(0)
     expect(surveyResult.answers[0].count).toBe(0)
+    expect(surveyResult.answers[0].isCurrentAccountAnswer).toBe(false)
   })
 
   test('should throws if LoadSurveyResultRepository throws ', async () => {
